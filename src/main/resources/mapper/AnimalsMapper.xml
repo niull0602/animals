@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.animals.mapper.AnimalsMapper">
+  <resultMap id="BaseResultMap" type="com.example.animals.pojo.Animals">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="animal_name" jdbcType="VARCHAR" property="animalName" />
+    <result column="animal_img" jdbcType="VARCHAR" property="animalImg" />
+    <result column="animal_imgs" jdbcType="VARCHAR" property="animalImgs" />
+    <result column="animal_color" jdbcType="VARCHAR" property="animalColor" />
+    <result column="animal_sex" jdbcType="VARCHAR" property="animalSex" />
+    <result column="aninal_desc" jdbcType="VARCHAR" property="aninalDesc" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="type_id" jdbcType="BIGINT" property="typeId" />
+  </resultMap>
+</mapper>

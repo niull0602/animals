@@ -1,43 +1,52 @@
 package com.example.animals.pojo;
 
+import lombok.ToString;
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 
+
 @Table(name = "t_animals")
+@ToString
+@Entity
+@org.hibernate.annotations.Table(appliesTo = "t_animals",comment="动物实体表")
 public class Animals {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GenericGenerator(name = "increment", strategy = "increment")
     private Long id;
 
-    @Column(name = "animal_name")
+    @Column(name = "animal_name",length = 20)
     private String animalName;
 
     /**
      * 展示图
      */
-    @Column(name = "animal_img")
+    @Column(name = "animal_img",columnDefinition = "varchar(255) comment '展示图'")
     private String animalImg;
 
     /**
      * 详情图（多个）
      */
-    @Column(name = "animal_imgs")
+    @Column(name = "animal_imgs",columnDefinition = "varchar(255) comment '详情图（多个）'")
     private String animalImgs;
 
-    @Column(name = "animal_color")
+    @Column(name = "animal_color",length = 50)
     private String animalColor;
 
-    @Column(name = "animal_sex")
+    @Column(name = "animal_sex",length = 10)
     private String animalSex;
 
     /**
-     * 详情
+     * 详细介绍
      */
-    @Column(name = "aninal_desc")
+    @Column(name = "aninal_desc",columnDefinition = "varchar(255) comment '详细介绍'")
     private String aninalDesc;
 
     /**
      * 领养状态  0：待领养  1：领养 
      */
+    @Column(name = "status",columnDefinition = "int comment '领养状态  0：待领养  1：领养 '")
     private Integer status;
 
     @Column(name = "type_id")

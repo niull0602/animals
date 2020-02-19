@@ -1,11 +1,17 @@
 package com.example.animals.pojo;
 
+import lombok.ToString;
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 
 @Table(name = "t_shop_car")
+@ToString
+@Entity
 public class ShopCar {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GenericGenerator(name = "increment", strategy = "increment")
     private Long id;
 
     @Column(name = "user_id")
@@ -17,7 +23,7 @@ public class ShopCar {
     /**
      * 购买数
      */
-    @Column(name = "buy_num")
+    @Column(name = "buy_num",columnDefinition = "int comment '购买数'")
     private Integer buyNum;
 
     /**

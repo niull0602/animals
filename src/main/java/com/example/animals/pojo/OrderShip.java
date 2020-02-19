@@ -1,11 +1,14 @@
 package com.example.animals.pojo;
 
-import javax.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.*;
+@Entity
 @Table(name = "t_order_ship")
 public class OrderShip {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GenericGenerator(name = "increment", strategy = "increment")
     private Long id;
 
     @Column(name = "order_id")

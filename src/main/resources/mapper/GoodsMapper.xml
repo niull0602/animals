@@ -15,4 +15,6 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="type_id" jdbcType="BIGINT" property="typeId" />
   </resultMap>
+
+
 </mapper>

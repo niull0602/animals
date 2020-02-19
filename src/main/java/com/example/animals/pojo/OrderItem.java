@@ -1,11 +1,15 @@
 package com.example.animals.pojo;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 
+@Entity
 @Table(name = "t_order_item")
 public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GenericGenerator(name = "increment", strategy = "increment")
     private Long id;
 
     @Column(name = "good_id")
@@ -14,7 +18,7 @@ public class OrderItem {
     /**
      * 购买数量
      */
-    @Column(name = "item_num")
+    @Column(name = "item_num",columnDefinition = "int comment '购买数量'")
     private Integer itemNum;
 
     /**

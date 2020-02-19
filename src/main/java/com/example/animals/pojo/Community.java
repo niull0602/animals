@@ -1,26 +1,34 @@
 package com.example.animals.pojo;
 
+import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
+
 import java.util.Date;
 import javax.persistence.*;
 
 @Table(name = "t_community")
+@ToString
+@Entity
+@org.hibernate.annotations.Table(appliesTo = "t_community",comment="互动区表")
 public class Community {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GenericGenerator(name = "increment", strategy = "increment")
     private Long id;
 
     @Column(name = "adopt_id")
     private Long adoptId;
 
     private String content;
-
+    @CreationTimestamp
     @Column(name = "create_time")
     private Date createTime;
 
     /**
      * 发互动的多个图片
      */
-    @Column(name = "img_urls")
+    @Column(name = "img_urls",columnDefinition = "varchar(255) comment '发互动的多个图片'")
     private String imgUrls;
 
     /**

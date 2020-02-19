@@ -1,20 +1,24 @@
 package com.example.animals.pojo;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
+
 import java.util.Date;
 import javax.persistence.*;
-
+@Entity
 @Table(name = "t_user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GenericGenerator(name = "increment", strategy = "increment")
     private Long id;
 
-    @Column(name = "phone_number")
+    @Column(name = "phone_number",unique = true,columnDefinition = "bigint comment '手机号码/账号'")
     private Long phoneNumber;
-
+    @Column(name = "password",length = 40)
     private String password;
 
-    @Column(name = "nick_name")
+    @Column(name = "nick_name",length = 20)
     private String nickName;
 
     @Column(name = "img_url")
@@ -23,25 +27,28 @@ public class User {
     /**
      * 真实姓名
      */
+    @Column(name = "name",length = 10,columnDefinition = "varchar(10) comment '真实姓名'")
     private String name;
 
     private Integer age;
-
+    @Column(name = "sex",length = 4)
     private String sex;
-
+    @Column(name = "address",length = 50,columnDefinition = "varchar(50) comment '家庭地址/收货地址'")
     private String address;
 
     /**
      * 余额
      */
+    @Column(columnDefinition = "double comment '余额'")
     private Double money;
-
+    @CreationTimestamp
     @Column(name = "create_time")
     private Date createTime;
 
     /**
      * 用户-0 管理员-1
      */
+    @Column(columnDefinition = "smallint comment '用户-0 管理员-1'")
     private Short mark;
 
     /**

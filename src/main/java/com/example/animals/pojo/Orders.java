@@ -1,12 +1,17 @@
 package com.example.animals.pojo;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import java.util.Date;
 import javax.persistence.*;
-
+@Entity
 @Table(name = "t_orders")
 public class Orders {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GenericGenerator(name = "increment", strategy = "increment")
     private Long id;
 
     @Column(name = "user_id")
@@ -15,23 +20,24 @@ public class Orders {
     /**
      * 订单编号
      */
-    @Column(name = "order_code")
+    @Column(name = "order_code",columnDefinition = "varchar(255) comment '订单编号'")
     private String orderCode;
 
     /**
      * 总价格
      */
-    @Column(name = "total_price")
+    @Column(name = "total_price",columnDefinition = "double comment '总价格'")
     private Double totalPrice;
 
     /**
-     * 订单状------0:未付款 1:已付款未发货  2:已发货  3:已收货
+     * 订单状------0:未付款 1:已付款未发货  2:已发货  3:确认收货
      */
+    @Column(columnDefinition = "int comment '订单状态---0:未付款 1:已付款未发货  2:已发货  3:确认收货 '")
     private Integer status;
-
+    @CreationTimestamp
     @Column(name = "create_time")
     private Date createTime;
-
+    @UpdateTimestamp
     @Column(name = "update_time")
     private Date updateTime;
 

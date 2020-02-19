@@ -1,19 +1,23 @@
 package com.example.animals.pojo;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
+
 import java.util.Date;
 import javax.persistence.*;
-
+@Entity
 @Table(name = "t_second_comments")
 public class SecondComments {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GenericGenerator(name = "increment", strategy = "increment")
     private Long id;
 
     @Column(name = "user_id")
     private Long userId;
-
+    @Column(name = "content",length = 100)
     private String content;
-
+    @CreationTimestamp
     @Column(name = "create_time")
     private Date createTime;
 

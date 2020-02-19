@@ -1,21 +1,29 @@
 package com.example.animals.pojo;
 
+import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import java.util.Date;
 import javax.persistence.*;
 
+@ToString
 @Table(name = "t_goods")
+@Entity
 public class Goods {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GenericGenerator(name = "increment", strategy = "increment")
     private Long id;
 
-    @Column(name = "good_name")
+    @Column(name = "good_name",length = 30)
     private String goodName;
 
     /**
      * 商品剩余量
      */
-    @Column(name = "good_number")
+    @Column(name = "good_number",columnDefinition = "int comment '商品剩余量'")
     private Integer goodNumber;
 
     @Column(name = "good_price")
@@ -26,10 +34,10 @@ public class Goods {
 
     @Column(name = "good_imgs")
     private String goodImgs;
-
+    @CreationTimestamp
     @Column(name = "create_time")
     private Date createTime;
-
+    @UpdateTimestamp
     @Column(name = "update_time")
     private Date updateTime;
 

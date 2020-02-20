@@ -96,7 +96,7 @@ public class GoodsController {
         return SzpJsonResult.ok(goodsResponse);
     }
 
-    @GetMapping("find/by/id")
+    @GetMapping("find/by/{id}")
     public SzpJsonResult<GoodResponse> findGoodsById(@PathVariable(value = "id")Long id){
         return SzpJsonResult.ok(goodsService.findGoodById(id));
     }

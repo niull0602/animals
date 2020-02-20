@@ -1,13 +1,17 @@
 package com.example.animals.pojo;
 
+import lombok.Data;
 import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.Date;
 
 
 @Table(name = "t_animals")
 @ToString
+@Data
 @Entity
 @org.hibernate.annotations.Table(appliesTo = "t_animals",comment="动物实体表")
 public class Animals {
@@ -48,6 +52,10 @@ public class Animals {
      */
     @Column(name = "status",columnDefinition = "int comment '领养状态  0：待领养  1：领养 '")
     private Integer status;
+
+    @CreationTimestamp
+    @Column(name = "regist_time",columnDefinition = "datetime comment '登记时间'")
+    private Date regist_time;
 
     @Column(name = "type_id")
     private Long typeId;

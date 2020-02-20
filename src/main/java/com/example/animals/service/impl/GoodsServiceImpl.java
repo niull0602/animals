@@ -112,7 +112,7 @@ public class GoodsServiceImpl implements GoodsService {
             goodsImgBo.setImgUrl(imgUrl);
             goodsImgBos.add(goodsImgBo);
         }
-
+        goodResponse.setGoodsImgBoList(goodsImgBos);
         return goodResponse;
     }
 

@@ -9,4 +9,12 @@
     <result column="order_id" jdbcType="BIGINT" property="orderId" />
     <result column="order_item_id" jdbcType="BIGINT" property="orderItemId" />
   </resultMap>
+
+  <delete id="deleteOrderShipAndOrderItem" parameterType="java.lang.Long">
+    DELETE os,o,oi FROM t_order_ship as os inner join t_order_item as oi inner join t_orders o on o.id=os.order_id and os.order_item_id=oi.id
+    WHERE
+    <if test="id != null">
+       o.id=#{id}
+    </if>
+  </delete>
 </mapper>

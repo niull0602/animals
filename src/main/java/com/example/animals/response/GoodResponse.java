@@ -24,9 +24,5 @@ public class GoodResponse {
 
     private String goodImg;
 
-    private Date createTime;
-
-    private Date updateTime;
-
     private List<GoodsImgBo> goodsImgBoList;
 }

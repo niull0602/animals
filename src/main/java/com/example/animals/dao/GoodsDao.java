@@ -56,4 +56,11 @@ public class GoodsDao {
     public Goods findGoodsById(Long id) {
         return goodsMapper.selectByPrimaryKey(id);
     }
+
+    public List<Goods> selectGoodsByIds(List<Long> ids) {
+        Example example = new Example(Goods.class);
+        example.createCriteria()
+                .andIn("typeId",ids);
+        return goodsMapper.selectByExample(example);
+    }
 }

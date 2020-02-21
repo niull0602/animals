@@ -10,4 +10,16 @@
     <result column="good_id" jdbcType="BIGINT" property="goodId" />
     <result column="buy_num" jdbcType="INTEGER" property="buyNum" />
   </resultMap>
+
+  <update id="updateShopCarByList" parameterType="java.util.List">
+    <foreach collection="list" item="bean" index="index" open="" close="" separator=";">
+      UPDATE t_shop_car
+      <set>
+        buy_num=#{bean.buyNum}
+      </set>
+      <where>
+        id = #{bean.id}
+      </where>
+    </foreach>
+  </update>
 </mapper>

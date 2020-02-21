@@ -54,8 +54,25 @@ public class GoodsServiceImpl implements GoodsService {
             List<Goods> goodsList = goodsDao.searchGoods(goodsName);
             PageInfo<Goods> pageInfo = new PageInfo<>(goodsList);
             List<Goods> list = pageInfo.getList();
-            log.info("searchGoodsList-{}",list);
-            goodSearchResponse.setGoodsList(list);
+            List<GoodResponse> goodResponseList = new ArrayList<>();
+            for (Goods good :list) {
+                GoodResponse goodResponse = new GoodResponse();
+                BeanUtils.copyProperties(good, goodResponse);
+                String goodImgs = good.getGoodImgs();
+                HashMap hashMap = JsonUtils.jsonToPoJo(goodImgs, HashMap.class);
+                List<GoodsImgBo> goodsImgBos = new ArrayList<>();
+                Set<String> keySet = hashMap.keySet();
+                for (String key : keySet) {
+                    GoodsImgBo goodsImgBo = new GoodsImgBo();
+                    String imgUrl = hashMap.get(key).toString();
+                    goodsImgBo.setImgUUID(key);
+                    goodsImgBo.setImgUrl(imgUrl);
+                    goodsImgBos.add(goodsImgBo);
+                }
+                goodResponse.setGoodsImgBoList(goodsImgBos);
+                goodResponseList.add(goodResponse);
+            }
+            goodSearchResponse.setGoodsList(goodResponseList);
             goodSearchResponse.setTotal(pageInfo.getTotal());
             return goodSearchResponse;
         }
@@ -65,8 +82,25 @@ public class GoodsServiceImpl implements GoodsService {
             List<Goods> goodsList = goodsDao.selectAll();
             PageInfo<Goods> pageInfo = new PageInfo<>(goodsList);
             List<Goods> list = pageInfo.getList();
-            log.info("allGoodList-{}",list);
-            goodSearchResponse.setGoodsList(list);
+            List<GoodResponse> goodResponseList = new ArrayList<>();
+            for (Goods good :list) {
+                GoodResponse goodResponse = new GoodResponse();
+                BeanUtils.copyProperties(good, goodResponse);
+                String goodImgs = good.getGoodImgs();
+                HashMap hashMap = JsonUtils.jsonToPoJo(goodImgs, HashMap.class);
+                List<GoodsImgBo> goodsImgBos = new ArrayList<>();
+                Set<String> keySet = hashMap.keySet();
+                for (String key : keySet) {
+                    GoodsImgBo goodsImgBo = new GoodsImgBo();
+                    String imgUrl = hashMap.get(key).toString();
+                    goodsImgBo.setImgUUID(key);
+                    goodsImgBo.setImgUrl(imgUrl);
+                    goodsImgBos.add(goodsImgBo);
+                }
+                goodResponse.setGoodsImgBoList(goodsImgBos);
+                goodResponseList.add(goodResponse);
+            }
+            goodSearchResponse.setGoodsList(goodResponseList);
             goodSearchResponse.setTotal(pageInfo.getTotal());
             return goodSearchResponse;
         }
@@ -79,7 +113,25 @@ public class GoodsServiceImpl implements GoodsService {
         List<Goods> goodsList = goodsDao.selectAll();
         PageInfo<Goods> pageInfo = new PageInfo<>(goodsList);
         List<Goods> list = pageInfo.getList();
-        goodSearchResponse.setGoodsList(list);
+        List<GoodResponse> goodResponseList = new ArrayList<>();
+        for (Goods good :list) {
+            GoodResponse goodResponse = new GoodResponse();
+            BeanUtils.copyProperties(good, goodResponse);
+            String goodImgs = good.getGoodImgs();
+            HashMap hashMap = JsonUtils.jsonToPoJo(goodImgs, HashMap.class);
+            List<GoodsImgBo> goodsImgBos = new ArrayList<>();
+            Set<String> keySet = hashMap.keySet();
+            for (String key : keySet) {
+                GoodsImgBo goodsImgBo = new GoodsImgBo();
+                String imgUrl = hashMap.get(key).toString();
+                goodsImgBo.setImgUUID(key);
+                goodsImgBo.setImgUrl(imgUrl);
+                goodsImgBos.add(goodsImgBo);
+            }
+            goodResponse.setGoodsImgBoList(goodsImgBos);
+            goodResponseList.add(goodResponse);
+        }
+        goodSearchResponse.setGoodsList(goodResponseList);
         goodSearchResponse.setTotal(pageInfo.getTotal());
         return goodSearchResponse;
     }
@@ -91,7 +143,25 @@ public class GoodsServiceImpl implements GoodsService {
         List<Goods> goodsList = goodsDao.findGoodsByTypeId(typeId);
         PageInfo<Goods> pageInfo = new PageInfo<>(goodsList);
         List<Goods> list = pageInfo.getList();
-        goodSearchResponse.setGoodsList(list);
+        List<GoodResponse> goodResponseList = new ArrayList<>();
+        for (Goods good :list) {
+            GoodResponse goodResponse = new GoodResponse();
+            BeanUtils.copyProperties(good, goodResponse);
+            String goodImgs = good.getGoodImgs();
+            HashMap hashMap = JsonUtils.jsonToPoJo(goodImgs, HashMap.class);
+            List<GoodsImgBo> goodsImgBos = new ArrayList<>();
+            Set<String> keySet = hashMap.keySet();
+            for (String key : keySet) {
+                GoodsImgBo goodsImgBo = new GoodsImgBo();
+                String imgUrl = hashMap.get(key).toString();
+                goodsImgBo.setImgUUID(key);
+                goodsImgBo.setImgUrl(imgUrl);
+                goodsImgBos.add(goodsImgBo);
+            }
+            goodResponse.setGoodsImgBoList(goodsImgBos);
+            goodResponseList.add(goodResponse);
+        }
+        goodSearchResponse.setGoodsList(goodResponseList);
         goodSearchResponse.setTotal(pageInfo.getTotal());
         return goodSearchResponse;
     }
@@ -114,6 +184,11 @@ public class GoodsServiceImpl implements GoodsService {
         }
         goodResponse.setGoodsImgBoList(goodsImgBos);
         return goodResponse;
+    }
+
+    @Override
+    public List<Goods> findGoodsByIds(List<Long> ids) {
+        return goodsDao.selectGoodsByIds(ids);
     }
 
     @Override

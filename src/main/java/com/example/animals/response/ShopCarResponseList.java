@@ -5,10 +5,10 @@ import lombok.Data;
 import java.util.List;
 
 /**
- * Created by lemon on 2020-02-18 22:25.
+ * Created by lemon on 2020-02-20 16:08.
  */
 @Data
-public class SelectGoodResponse {
-    private List<GoodResponse> goodsList;
+public class ShopCarResponseList {
+    private List<ShopCarResponse> list;
     private Long total;
 }

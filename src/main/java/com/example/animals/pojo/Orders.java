@@ -30,9 +30,9 @@ public class Orders {
     private Double totalPrice;
 
     /**
-     * 订单状------0:未付款 1:已付款未发货  2:已发货  3:确认收货
+     * 订单状------0:未付款 1:已付款待发货   2:已发货  3:确认收货  4:取消订单
      */
-    @Column(columnDefinition = "int comment '订单状态---0:未付款 1:已付款未发货  2:已发货  3:确认收货 '")
+    @Column(columnDefinition = "int comment '订单状态---0:未付款 1:已付款待发货   2:已发货  3:确认收货  4:取消订单'")
     private Integer status;
     @CreationTimestamp
     @Column(name = "create_time")

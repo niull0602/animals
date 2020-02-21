@@ -10,4 +10,26 @@
     <result column="item_num" jdbcType="INTEGER" property="itemNum" />
     <result column="subprice" jdbcType="DOUBLE" property="subprice" />
   </resultMap>
+
+  <resultMap id="OrderItemRes" type="com.example.animals.response.OrderItemResponse">
+    <id column="id" property="id"/>
+    <result column="item_num" property="itemNum"/>
+    <result column="subprice" property="subprice"/>
+    <association property="good" javaType="com.example.animals.pojo.Goods">
+      <result column="id" property="id"/>
+      <result column="good_name" property="goodName"/>
+      <result column="good_price" property="goodPrice"/>
+      <result column="good_img" property="goodImg"/>
+    </association>
+  </resultMap>
+
+  <select id="selectOrderItemByOrderId" resultMap="OrderItemRes" parameterType="java.lang.Long">
+    SELECT oi.*,g.id,g.good_name,g.good_price,g.good_img FROM t_order_ship os,t_order_item oi,t_goods g
+    WHERE os.order_item_id=oi.id and oi.good_id=g.id
+    <if test="id != null">
+      and os.order_id=#{id}
+    </if>
+
+  </select>
+
 </mapper>

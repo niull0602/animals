@@ -1,6 +1,6 @@
 package com.example.animals.pojo;
 
-import lombok.ToString;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -8,7 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.util.Date;
 import javax.persistence.*;
 
-@ToString
+
 @Table(name = "t_goods")
 @Entity
 public class Goods {
@@ -172,5 +172,20 @@ public class Goods {
      */
     public void setTypeId(Long typeId) {
         this.typeId = typeId;
+    }
+
+    @Override
+    public String toString() {
+        return "Goods{" +
+                "id=" + id +
+                ", goodName='" + goodName + '\'' +
+                ", goodNumber=" + goodNumber +
+                ", goodPrice=" + goodPrice +
+                ", goodImg='" + goodImg + '\'' +
+                ", goodImgs='" + goodImgs + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", typeId=" + typeId +
+                '}';
     }
 }

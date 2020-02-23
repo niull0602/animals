@@ -1,5 +1,10 @@
 package com.example.animals.service;
 
+import com.example.animals.pojo.User;
+import com.example.animals.request.AddUserRequest;
+import com.example.animals.request.UpdateUserRequest;
+import com.example.animals.response.UserResponse;
+
 /**
  * Created by lemon on 2020-02-20 13:52.
  */
@@ -10,9 +15,17 @@ public interface UserService {
 
     String getCode(Long phoneNumber);
 
-    void saveToken(Long phoneNumber) throws Exception;
+    void saveToken(Long userId) throws Exception;
 
-    Long getIdByPhoneNumber(Long phoneNumber);
+    Long getUserId(String token);
 
-    Long getPhoneNumber(String token);
+    Integer addUser(AddUserRequest addUserRequest, Short mark);
+
+    Integer deleteUser(Long userId);
+
+    Integer updateUser(UpdateUserRequest updataUserRequest);
+
+    UserResponse selectUser(Long userId);
+
+    User login(Long phoneNumber, String password);
 }

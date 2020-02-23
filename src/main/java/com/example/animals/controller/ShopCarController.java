@@ -43,7 +43,7 @@ public class ShopCarController {
     @PostMapping(value = "select/shopcar/userId")
     public SzpJsonResult<ShopCarResponseList> getShopCarListByUserId(@RequestBody SelectShopCarRequest shopCarRequest){
         String token = shopCarRequest.getToken();
-        if (JwtUtil.getPhoneNumber(token)==null){
+        if (JwtUtil.getUserId(token)==null){
             return SzpJsonResult.errorMsg("没有登录！");
         }
         return SzpJsonResult.ok(shopCarService.selectShopCarByUserId(shopCarRequest));

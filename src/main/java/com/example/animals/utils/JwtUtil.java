@@ -83,11 +83,11 @@ public class JwtUtil {
      * @param token
      * @return user_id
      */
-    public static Long getPhoneNumber(String token) {
+    public static Long getUserId(String token) {
         Map<String, Claim> claims = verifyToken(token);
         Claim userId = claims.get("user_id");
         if (null == userId || StringUtils.isEmpty(userId.asString())) {
-            return null;
+            throw new RuntimeException("token不存在！");
         }
         return Long.valueOf(userId.asString());
     }

@@ -15,6 +15,7 @@ import com.example.animals.response.OrderResponse;
 import com.example.animals.response.OrdersResponseList;
 import com.example.animals.service.OrderService;
 import com.example.animals.service.UserService;
+import com.example.animals.utils.JwtUtil;
 import com.example.animals.utils.OrderCodeUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -47,11 +48,9 @@ public class OrderServiceImpl implements OrderService {
     @Transactional(rollbackFor = Exception.class)
     public Integer addOrder(AddOrderRequest orderRequest) {
         String token = orderRequest.getToken();
-        try {
-            if(userService.getPhoneNumber(token)==null)
-                return null;
-        }catch (Exception e) {
-            e.printStackTrace();
+        Long userId = userService.getUserId(token);
+        if (userId==null){
+            return 0;
         }
         List<AddOrderItemRequest> itemRequestList = orderRequest.getItemRequestList();
         List<OrderItem> orderItemList = new ArrayList<>();
@@ -85,11 +84,8 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Integer updateOrderById(UpdateOrderRequest request) {
         String token = request.getToken();
-        try {
-            if(userService.getPhoneNumber(token)==null)
-                return null;
-        }catch (Exception e) {
-            e.printStackTrace();
+        if (userService.getUserId(token) == null) {
+            return 0;
         }
         Orders orders = new Orders();
         BeanUtils.copyProperties(request,orders);

@@ -1,20 +1,14 @@
 package com.example.animals.controller;
 
 import com.example.animals.common.SzpJsonResult;
-import com.example.animals.pojo.Goods;
 import com.example.animals.request.AddGoodRequest;
 import com.example.animals.request.GoodsRequest;
 import com.example.animals.response.GoodResponse;
 import com.example.animals.response.SelectGoodResponse;
 import com.example.animals.service.GoodsService;
-import org.apache.http.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.servlet.server.Session;
-import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.Collections;
 import java.util.List;
 

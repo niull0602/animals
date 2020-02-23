@@ -6,7 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import tk.mybatis.mapper.entity.Example;
 
-import java.util.List;
+import java.util.*;
+
 
 /**
  * Created by lemon on 2020-02-18 22:07.
@@ -63,4 +64,5 @@ public class GoodsDao {
                 .andIn("typeId",ids);
         return goodsMapper.selectByExample(example);
     }
+
 }

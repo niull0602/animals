@@ -12,7 +12,6 @@ import com.example.animals.response.ShopCarResponseList;
 import com.example.animals.service.GoodsService;
 import com.example.animals.service.ShopCarService;
 import com.example.animals.service.UserService;
-import com.example.animals.utils.JwtUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
@@ -36,18 +35,15 @@ public class ShopCarServiceImpl implements ShopCarService {
 
     @Override
     public Integer addShopCar(AddShopCarRequest shopCarRequest) {
-        if (shopCarRequest.getToken() == null) {
-            return 0;
-        }else {
-            Long phoneNumber = userService.getPhoneNumber(shopCarRequest.getToken());
-            if (phoneNumber == null) {
-                return 0;
-            }else {
+        if (shopCarRequest.getToken() != null) {
+            Long userId = userService.getUserId(shopCarRequest.getToken());
+            if (userId != null) {
                 ShopCar shopCar = new ShopCar();
                 BeanUtils.copyProperties(shopCarRequest,shopCar);
                 return shopCarDao.insert(shopCar);
             }
         }
+        return 0;
     }
 
     @Override

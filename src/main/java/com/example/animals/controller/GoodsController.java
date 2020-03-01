@@ -41,7 +41,7 @@ public class GoodsController {
         return SzpJsonResult.ok(goodsService.upateGoods(goodsRequest));
     }
 
-    @GetMapping(value = "/search/keywords")
+    @PostMapping(value = "/search/keywords")
     public SzpJsonResult<SelectGoodResponse> search(@RequestParam(value = "page",defaultValue = "1") Integer page,
                                                     @RequestParam(value = "size",defaultValue = "10")Integer size,
                                                     @RequestParam(value = "keywords",defaultValue = "",required = false)String keyWords){
@@ -83,10 +83,7 @@ public class GoodsController {
     @GetMapping(value = "/find/all/user")
     public SzpJsonResult<SelectGoodResponse> findAllGoodsToUser(@RequestParam(value = "page",defaultValue = "1") Integer page,
                                                                 @RequestParam(value = "size",defaultValue = "10")Integer size) {
-        SelectGoodResponse goodsResponse = goodsService.findAllGoods(size, page);
-        List<GoodResponse> goodsList = goodsResponse.getGoodsList();
-        Collections.shuffle(goodsList);
-        goodsResponse.setGoodsList(goodsList);
+        SelectGoodResponse goodsResponse = goodsService.findAllGoodsByUser(size, page);
         return SzpJsonResult.ok(goodsResponse);
     }
 

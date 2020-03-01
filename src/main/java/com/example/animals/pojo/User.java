@@ -1,5 +1,6 @@
 package com.example.animals.pojo;
 
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -7,6 +8,7 @@ import java.util.Date;
 import javax.persistence.*;
 @Entity
 @Table(name = "t_user")
+@ToString
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

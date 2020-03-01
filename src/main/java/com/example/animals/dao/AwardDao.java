@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class AwardDao {
     @Autowired
-    AwardMapper awardMapper;
+    private AwardMapper awardMapper;
 
     public Integer addAward(Award award){
         return awardMapper.insert(award);

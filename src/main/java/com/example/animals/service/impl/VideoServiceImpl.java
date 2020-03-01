@@ -11,10 +11,10 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -26,7 +26,7 @@ import java.util.List;
 @Service
 public class VideoServiceImpl implements VideoService {
     @Autowired
-    VideoDao videoDao;
+    private VideoDao videoDao;
 
     @Override
     public Integer addVideo(AddVideoRequest videoRequest) {
@@ -43,34 +43,36 @@ public class VideoServiceImpl implements VideoService {
 
     @Override
     public VideoResponseList selectVideo(SelectVideoRequestByUserId selectVideoRequestByUserId) {
-        List<Video> videos = videoDao.selectVideo(selectVideoRequestByUserId.getUserId());
         PageHelper.startPage(selectVideoRequestByUserId.getPageNumber(),selectVideoRequestByUserId.getSize());
+        List<Video> videos = videoDao.selectVideo(selectVideoRequestByUserId.getUserId());
+        PageInfo<Video> pageInfo = new PageInfo<>(videos);
         List<VideoResponse> videoResponses = new ArrayList<>();
-        for (Video video:videos) {
+        for (Video video:pageInfo.getList()) {
             VideoResponse videoResponse = new VideoResponse();
-            BeanUtils.copyProperties(videos,videoResponse);
+            BeanUtils.copyProperties(video,videoResponse);
             videoResponses.add(videoResponse);
         }
-        PageInfo<VideoResponse> pageInfo = new PageInfo<>(videoResponses);
         VideoResponseList videoResponseList = new VideoResponseList();
-        videoResponseList.setVideoResponseList(pageInfo.getList());
+        videoResponseList.setVideoResponseList(videoResponses);
         videoResponseList.setSize(pageInfo.getTotal());
         return videoResponseList;
     }
 
     @Override
     public VideoResponseList selectVideo(Integer pageNumber,Integer size) {
-        List<Video> videos = videoDao.selectAllVideo();
         PageHelper.startPage(pageNumber,size);
+        List<Video> videos = videoDao.selectAllVideo();
+        Collections.shuffle(videos);
+        PageInfo<Video> pageInfo = new PageInfo<>(videos);
         List<VideoResponse> videoResponses = new ArrayList<>();
-        for (Video video:videos) {
+        List<Video> list = pageInfo.getList();
+        for (Video video:list) {
             VideoResponse videoResponse = new VideoResponse();
-            BeanUtils.copyProperties(videos,videoResponse);
+            BeanUtils.copyProperties(video,videoResponse);
             videoResponses.add(videoResponse);
         }
-        PageInfo<VideoResponse> pageInfo = new PageInfo<>(videoResponses);
         VideoResponseList videoResponseList = new VideoResponseList();
-        videoResponseList.setVideoResponseList(pageInfo.getList());
+        videoResponseList.setVideoResponseList(videoResponses);
         videoResponseList.setSize(pageInfo.getTotal());
         return videoResponseList;
     }

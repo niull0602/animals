@@ -7,6 +7,7 @@ import com.example.animals.pojo.Animals;
 import com.example.animals.pojo.Award;
 import com.example.animals.pojo.User;
 import com.example.animals.service.AwardService;
+import com.example.animals.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,15 +22,15 @@ import java.util.Date;
 @Service
 public class AwardServiceImpl implements AwardService {
     @Autowired
-    AwardDao awardDao;
+    private AwardDao awardDao;
 
     @Autowired
-    UserDao userDao;
+    private UserDao userDao;
 
     @Autowired
-    AnimalDao animalDao;
+    private AnimalDao animalDao;
 
-    @Transactional()
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Integer award(Long userId, Double money,Long animalId) {
         User user = userDao.selectUser(userId);

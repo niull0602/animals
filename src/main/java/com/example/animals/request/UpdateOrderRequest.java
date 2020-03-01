@@ -10,10 +10,14 @@ import java.util.Date;
 @Data
 public class UpdateOrderRequest {
     private Long id;
+
     private Long userId;
+
     private String orderCode;
+
     private Double totalPrice;
+
     private Integer status;
-    private Date createTime;
+
     private String token;
 }

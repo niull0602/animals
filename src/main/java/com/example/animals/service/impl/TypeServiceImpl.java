@@ -2,9 +2,11 @@ package com.example.animals.service.impl;
 
 import com.example.animals.dao.TypeDao;
 import com.example.animals.pojo.Type;
+import com.example.animals.request.AddTypeRequest;
 import com.example.animals.response.AnimalsTypeResponse;
 import com.example.animals.response.GoodTypeResponse;
 import com.example.animals.service.TypeService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,5 +36,17 @@ public class TypeServiceImpl implements TypeService {
         GoodTypeResponse goodTypeResponse = new GoodTypeResponse();
         goodTypeResponse.setList(goodsType);
         return goodTypeResponse;
+    }
+
+    @Override
+    public Integer add(AddTypeRequest request) {
+        Type type = new Type();
+        BeanUtils.copyProperties(request,type);
+        return typeDao.insert(type);
+    }
+
+    @Override
+    public Integer deleteTpyeById(Long id) {
+        return typeDao.deleteTpyeById(id);
     }
 }

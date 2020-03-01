@@ -1,5 +1,6 @@
 package com.example.animals.service;
 
+import com.example.animals.request.AddTypeRequest;
 import com.example.animals.response.AnimalsTypeResponse;
 import com.example.animals.response.GoodTypeResponse;
 
@@ -10,4 +11,8 @@ public interface TypeService {
     AnimalsTypeResponse getAnimalsType();
 
     GoodTypeResponse getGoodsType(Long typeId);
+
+    Integer add(AddTypeRequest request);
+
+    Integer deleteTpyeById(Long id);
 }

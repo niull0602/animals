@@ -1,6 +1,5 @@
 package com.example.animals.request;
 
-import com.example.animals.bo.GoodsImgBo;
 import lombok.Data;
 
 import java.util.List;

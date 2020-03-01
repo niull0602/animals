@@ -8,7 +8,7 @@ import lombok.ToString;
  */
 @Data
 @ToString
-public class GoodsImgBo {
+public class ImgBo {
     private String imgUUID;
     private String imgUrl;
 }

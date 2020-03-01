@@ -24,6 +24,8 @@ public interface GoodsService {
 
     SelectGoodResponse findAllGoods(Integer size, Integer page);
 
+    SelectGoodResponse findAllGoodsByUser(Integer size, Integer page);
+
     SelectGoodResponse findGoodsByTypeId(Long typeId, Integer size, Integer page);
 
     GoodResponse findGoodById(Long id);

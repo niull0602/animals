@@ -17,13 +17,13 @@ import java.util.List;
 @Repository
 public class AnimalDao {
     @Autowired
-    AnimalsMapper animalsMapper;
+    private AnimalsMapper animalsMapper;
 
     public Integer addAnimal(Animals animals){
         return animalsMapper.insert(animals);
     }
 
-    public Integer deleteById(Integer animalId) {
+    public Integer deleteById(Long animalId) {
         return animalsMapper.deleteByPrimaryKey(animalId);
     }
 
@@ -31,15 +31,22 @@ public class AnimalDao {
         return animalsMapper.updateByPrimaryKeySelective(animals);
     }
 
-    public List<Animals> selectAllAnimal(Long i) {
+    public List<Animals> selectAllAnimal(Integer status) {
         Example example = new Example(Animals.class);
-        example.createCriteria().andEqualTo("status",i);
+        example.createCriteria().andEqualTo("status",status);
         return animalsMapper.selectByExample(example);
+    }
+
+    public List<Animals> selectAll() {
+       return animalsMapper.selectAll();
     }
 
     public List<Animals> selectAllAnimal(String keyWords) {
         Example example = new Example(Animals.class);
-        example.createCriteria().andLike("animalName",keyWords)
+        example.createCriteria()
+                //问南佩佩###################
+                .andEqualTo("status",0)
+                .andLike("animalName",keyWords)
                 .orLike("animalColor",keyWords);
         return animalsMapper.selectByExample(example);
     }
@@ -48,4 +55,10 @@ public class AnimalDao {
         return animalsMapper.selectByPrimaryKey(animalId);
     }
 
+    public List<Animals> selectAnimalByIds(List<Long> animalId) {
+        Example example = new Example(Animals.class);
+        example.createCriteria()
+                .andIn("id",animalId);
+        return animalsMapper.selectByExample(example);
+    }
 }

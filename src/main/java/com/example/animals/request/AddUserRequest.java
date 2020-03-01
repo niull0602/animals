@@ -32,5 +32,5 @@ public class AddUserRequest {
     /**
      * 用户-0 管理员-1
      */
-    private Short mark;
+    private Short mark = 0;
 }

@@ -35,8 +35,9 @@ public class Adopt {
     /**
      * 领养状态 0：正常 1：拒绝再次领养
      */
-    @Column(name = "status",columnDefinition = "int comment '领养状态 0：正常 1：拒绝再次领养'")
+    @Column(name = "status",columnDefinition = "int comment '领养状态 0：正常 1：拒绝再次领养 2:待送回'")
     private Integer status;
+
 
     /**
      * @return id

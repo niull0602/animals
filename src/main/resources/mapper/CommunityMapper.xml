@@ -10,5 +10,6 @@
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="img_urls" jdbcType="VARCHAR" property="imgUrls" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
   </resultMap>
 </mapper>

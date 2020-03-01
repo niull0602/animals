@@ -1,6 +1,9 @@
 package com.example.animals.response;
 
+import com.example.animals.bo.ImgBo;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * @Author:Fengxutong
@@ -9,11 +12,13 @@ import lombok.Data;
  */
 @Data
 public class AnimalsResponse {
+    private Long id;
+
     private String animalName;
 
     private String animalImg;
 
-    private String animalImgs;
+    private List<ImgBo> imgUrls;
 
     private String animalColor;
 

@@ -33,4 +33,12 @@ public class TypeDao {
                 .andLike("code",code+"0%");
         return typeMapper.selectByExample(example);
     }
+
+    public Integer insert(Type type) {
+        return typeMapper.insert(type);
+    }
+
+    public Integer deleteTpyeById(Long id) {
+        return typeMapper.deleteByPrimaryKey(id);
+    }
 }

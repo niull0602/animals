@@ -1,10 +1,8 @@
 package com.example.animals.response;
 
-import com.example.animals.bo.GoodsImgBo;
+import com.example.animals.bo.ImgBo;
 import lombok.Data;
 
-import javax.persistence.Column;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,5 +22,5 @@ public class GoodResponse {
 
     private String goodImg;
 
-    private List<GoodsImgBo> goodsImgBoList;
+    private List<ImgBo> goodsImgBoList;
 }

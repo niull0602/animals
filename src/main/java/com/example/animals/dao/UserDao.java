@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.List;
+
 /**
  * @Author:Fengxutong
  * @Date:2020/2/19
@@ -14,7 +16,7 @@ import tk.mybatis.mapper.entity.Example;
 @Repository
 public class UserDao {
     @Autowired
-    UserMapper userMapper;
+    private UserMapper userMapper;
 
     public Integer addUser(User user){
         return userMapper.insert(user);
@@ -51,5 +53,12 @@ public class UserDao {
         Example example = new Example(User.class);
         example.createCriteria().andEqualTo("mark",mark);
         return userMapper.selectOneByExample(example);
+    }
+
+    public List<User> selectUserByIds(List<Long> userId) {
+        Example example = new Example(User.class);
+        example.createCriteria()
+                .andIn("id",userId);
+        return userMapper.selectByExample(example);
     }
 }

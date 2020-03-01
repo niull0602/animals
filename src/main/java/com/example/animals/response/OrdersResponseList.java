@@ -11,8 +11,4 @@ import java.util.List;
 public class OrdersResponseList {
     private List<OrderResponse> list;
     private Long total;
-
-    public void add(OrderResponse orderResponse){
-        this.list.add(orderResponse);
-    }
 }

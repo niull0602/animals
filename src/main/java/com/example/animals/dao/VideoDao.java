@@ -16,7 +16,7 @@ import java.util.List;
 @Repository
 public class VideoDao {
     @Autowired
-    VideoMapper videoMapper;
+    private VideoMapper videoMapper;
 
     public Integer addVideo(Video video){
         return videoMapper.insert(video);

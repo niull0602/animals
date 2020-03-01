@@ -1,5 +1,6 @@
 package com.example.animals.pojo;
 
+import lombok.Data;
 import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
@@ -11,6 +12,7 @@ import javax.persistence.*;
 @ToString
 @Entity
 @org.hibernate.annotations.Table(appliesTo = "t_community",comment="互动区表")
+@Data
 public class Community {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +21,7 @@ public class Community {
 
     @Column(name = "adopt_id")
     private Long adoptId;
-
+//user
     private String content;
     @CreationTimestamp
     @Column(name = "create_time")
@@ -30,6 +32,8 @@ public class Community {
      */
     @Column(name = "img_urls",columnDefinition = "varchar(255) comment '发互动的多个图片'")
     private String imgUrls;
+    @Column(name = "user_id",columnDefinition = "bigint comment '用户id'")
+    private Long userId;
 
     /**
      * @return id

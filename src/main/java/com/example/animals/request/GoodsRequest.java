@@ -1,11 +1,10 @@
 package com.example.animals.request;
 
 
-import com.example.animals.bo.GoodsImgBo;
+import com.example.animals.bo.ImgBo;
 import lombok.Data;
 
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -32,7 +31,7 @@ public class GoodsRequest {
     /**
      * 商品详情多图
      */
-    private List<GoodsImgBo> goodsImgBoList;
+    private List<ImgBo> goodsImgBoList;
     /**
      * 书的种类
      */

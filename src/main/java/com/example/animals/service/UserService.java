@@ -3,6 +3,7 @@ package com.example.animals.service;
 import com.example.animals.pojo.User;
 import com.example.animals.request.AddUserRequest;
 import com.example.animals.request.UpdateUserRequest;
+import com.example.animals.response.LoginResponse;
 import com.example.animals.response.UserResponse;
 
 /**
@@ -15,7 +16,7 @@ public interface UserService {
 
     String getCode(Long phoneNumber);
 
-    void saveToken(Long userId) throws Exception;
+    String saveToken(Long userId) throws Exception;
 
     Long getUserId(String token);
 
@@ -27,5 +28,7 @@ public interface UserService {
 
     UserResponse selectUser(Long userId);
 
-    User login(Long phoneNumber, String password);
+    LoginResponse login(Long phoneNumber, String password) throws Exception;
+
+    Integer exits(Long phoneNumber);
 }

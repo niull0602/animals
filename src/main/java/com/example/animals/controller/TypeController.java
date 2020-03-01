@@ -1,13 +1,11 @@
 package com.example.animals.controller;
 
 import com.example.animals.common.SzpJsonResult;
+import com.example.animals.request.AddTypeRequest;
 import com.example.animals.response.AnimalsTypeResponse;
 import com.example.animals.service.TypeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.internal.LoadingCache;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by lemon on 2020-02-19 11:49.
@@ -26,5 +24,17 @@ public class TypeController {
     public SzpJsonResult<AnimalsTypeResponse> getGoodsType(@PathVariable(value = "typeId") Long typeId){
         return SzpJsonResult.ok(typeService.getGoodsType(typeId));
     }
+
+    @PostMapping(value = "add/type")
+    public SzpJsonResult<Integer> addTpye(@RequestBody AddTypeRequest request){
+        return SzpJsonResult.ok(typeService.add(request));
+    }
+
+    @DeleteMapping(value = "delete/type/{id}")
+    public SzpJsonResult<Integer> deleteTpyeById(@PathVariable(value = "id")Long id){
+        return SzpJsonResult.ok(typeService.deleteTpyeById(id));
+    }
+
+
 
 }

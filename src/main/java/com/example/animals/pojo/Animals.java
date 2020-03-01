@@ -55,7 +55,7 @@ public class Animals {
 
     @CreationTimestamp
     @Column(name = "regist_time",columnDefinition = "datetime comment '登记时间'")
-    private Date regist_time;
+    private Date registTime;
 
     @Column(name = "type_id")
     private Long typeId;

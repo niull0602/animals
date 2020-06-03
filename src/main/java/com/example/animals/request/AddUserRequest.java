@@ -27,7 +27,6 @@ public class AddUserRequest {
 
     private String address;
 
-    private Double money = 0D;
 
     /**
      * 用户-0 管理员-1

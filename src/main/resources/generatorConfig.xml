@@ -16,67 +16,39 @@
         <!-- caseSensitive默认false，当数据库表名区分大小写时，可以将该属性设置为true -->
         <property name="caseSensitive" value="true"/>
     </plugin>
-    <!-- optional，旨在创建class时，对注释进行控制 -->
-    <commentGenerator>
-        <property name="suppressDate" value="true"/>
-        <property name="suppressAllComments" value="true"/>
-    </commentGenerator>
-
-    <!--<context id="testTables" targetRuntime="MyBatis3">
         <commentGenerator>
-            &lt;!&ndash; 是否去除自动生成的注释 true：是 ： false:否 &ndash;&gt;
-            <property name="suppressAllComments" value="true" />
-        </commentGenerator>-->
-
-        <!--数据库连接的信息：驱动类、连接地址、用户名、密码 -->
-        <!-- <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-            connectionURL="jdbc:mysql://47.102.101.68:3306/kxg_working_go?useUnicode=true&amp;characterEncoding=utf-8"
-             userId="root"
-            password="123456">
-        </jdbcConnection> -->
+            <property name="suppressDate" value="true"/>
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+        <!--jdbc的数据库连接 -->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://101.132.33.149:3306/nanpeipei?useSSL=false"
+                        connectionURL="jdbc:mysql://101.132.33.149:3306/niulilu?useSSL=false"
                         userId="root"
                         password="123456">
         </jdbcConnection>
-        <!-- <jdbcConnection driverClass="oracle.jdbc.OracleDriver"
-            connectionURL="jdbc:oracle:thin:@127.0.0.1:1521:yycg"
-            userId="yycg"
-            password="yycg">
-        </jdbcConnection> -->
-
-        <!-- 默认false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer，为 true时把JDBC DECIMAL 和
-            NUMERIC 类型解析为java.math.BigDecimal -->
+        <!-- 非必需，类型处理器，在数据库类型和java类型之间的转换控制-->
         <javaTypeResolver>
-            <property name="forceBigDecimals" value="false" />
+            <property name="forceBigDecimals" value="false"/>
         </javaTypeResolver>
-
-        <!-- targetProject:生成PO类的位置 -->
-       <!-- <javaModelGenerator targetPackage="com.example.animals.pojo"
-                            targetProject="src/main/java">
-            &lt;!&ndash; enableSubPackages:是否让schema作为包的后缀 &ndash;&gt;
-            <property name="enableSubPackages" value="false" />
-            &lt;!&ndash; 从数据库返回的值被清理前后的空格 &ndash;&gt;
-            <property name="trimStrings" value="true" />
-        </javaModelGenerator>-->
-        <javaModelGenerator>
-            <!-- enableSubPackages:是否让schema作为包的后缀 -->
-            <property name="enableSubPackages" value="false" />
-            <!-- 从数据库返回的值被清理前后的空格 -->
-            <property name="trimStrings" value="true" />
+        <!-- Model模型生成器,用来生成含有主键key的类，记录类 以及查询Example类
+            targetPackage     指定生成的model生成所在的包名
+            targetProject     指定在该项目下所在的路径
+        -->
+        <javaModelGenerator targetPackage="com.example.beauty.pojo" targetProject="src/main/java">
+            <!-- 是否对model添加 构造函数 -->
+            <!--<property name="constructorBased" value="true"/>-->
+            <!-- 是否允许子包，即targetPackage.schemaName.tableName -->
+            <property name="enableSubPackages" value="false"/>
+            <!-- 建立的Model对象是否 不可改变  即生成的Model对象不会有 setter方法，只有构造方法 -->
+            <property name="immutable" value="false"/>
+            <!-- 给Model添加一个父类 -->
+            <!--<property name="rootClass" value="com."/>-->
+            <!-- 是否对类CHAR类型的列的数据进行trim操作 -->
+            <property name="trimStrings" value="true"/>
         </javaModelGenerator>
-        <!-- targetProject:mapper映射文件生成的位置 -->
-        <sqlMapGenerator targetPackage="mapper"
-                         targetProject="src/main/resources">
-            <!-- enableSubPackages:是否让schema作为包的后缀 -->
-            <property name="enableSubPackages" value="false" />
-        </sqlMapGenerator>
-        <!-- targetPackage：mapper接口生成的位置 -->
-        <javaClientGenerator type="XMLMAPPER"
-                             targetPackage="com.example.animals.mapper"
-                             targetProject="src/main/java">
-            <!-- enableSubPackages:是否让schema作为包的后缀 -->
-            <property name="enableSubPackages" value="false" />
+        <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources"/>
+        <javaClientGenerator targetPackage="com.example.beauty.mapper" targetProject="src/main/java"
+                             type="XMLMAPPER">
         </javaClientGenerator>
         <!-- 指定数据库表 -->
 

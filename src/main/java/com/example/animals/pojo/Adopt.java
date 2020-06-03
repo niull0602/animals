@@ -1,19 +1,15 @@
 package com.example.animals.pojo;
 
 import lombok.ToString;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.GenericGenerator;
 
 import java.util.Date;
 import javax.persistence.*;
 
 @Table(name = "t_adopt")
 @ToString
-@Entity
 public class Adopt {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @GenericGenerator(name = "increment", strategy = "increment")
     private Long id;
 
     @Column(name = "user_id")
@@ -25,7 +21,6 @@ public class Adopt {
     /**
      * 领养日期
      */
-    @CreationTimestamp
     @Column(name = "create_time",columnDefinition = "DATETIME comment '领养日期'")
     private Date createTime;
 

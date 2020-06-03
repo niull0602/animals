@@ -6,6 +6,7 @@ import com.example.animals.dao.AnimalDao;
 import com.example.animals.dao.UserDao;
 import com.example.animals.pojo.Adopt;
 import com.example.animals.pojo.Animals;
+import com.example.animals.pojo.User;
 import com.example.animals.request.AddAdoptRequest;
 import com.example.animals.request.AdoptRequest;
 
@@ -14,6 +15,7 @@ import com.example.animals.response.AdoptResponseList;
 import com.example.animals.response.UserAdoptResponse;
 import com.example.animals.response.UserAdoptResponseList;
 import com.example.animals.service.AdoptService;
+import com.example.animals.utils.DateTimeUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
@@ -78,7 +80,7 @@ public class AdoptServiceImpl implements AdoptService {
             Long animalId = adopt.getAnimalId();
             Animals animals = animalsDao.selectAnimalById(animalId);
             BeanUtils.copyProperties(animals,userAdoptResponse);
-            userAdoptResponse.setCreateTime(adopt.getCreateTime());
+            userAdoptResponse.setCreateTime(DateTimeUtil.getDateTimeToString(adopt.getCreateTime(),DateTimeUtil.DATETIME_FORMAT_YYYY_MM_DD_HH_MM));
             userAdoptResponse.setAnimalId(animalId);
             userAdoptResponseList.add(userAdoptResponse);
         }
@@ -146,37 +148,31 @@ public class AdoptServiceImpl implements AdoptService {
 
     @Override
     public AdoptResponseList findIllegalAdopt(Integer page, Integer size) {
-        PageHelper.startPage(page,size);
-        List<Adopt> all = adoptDao.selectListByCondition(0);
-        ArrayList<AdoptResponse> adoptResponses = new ArrayList<>();
-        for (Adopt adopt:all) {
-            Integer evaNum = adopt.getEvaNum();
-            Date date = adopt.getCreateTime();
-            Date time = new Date();
-                if (time.getYear() == date.getYear()) {
-                    if (time.getMonth() - date.getMonth()-evaNum>1) {
-                        AdoptResponse adoptResponse = new AdoptResponse();
-                        BeanUtils.copyProperties(adopt, adoptResponse);
-                        adoptResponses.add(adoptResponse);
-                    }
-                } else {
-                    if (time.getMonth() - date.getMonth()-evaNum+12>1) {
-                        AdoptResponse adoptResponse = new AdoptResponse();
-                        BeanUtils.copyProperties(adopt, adoptResponse);
-                        adoptResponses.add(adoptResponse);
-                    }
-                /*if (time.getMonth()+12-date.getMonth()<1){
-                    AdoptResponse adoptResponse = new AdoptResponse();
-                    BeanUtils.copyProperties(adopt,adoptResponse);
-                    adoptResponses.add(adoptResponse);
-                } */
-                }
-            }
-        AdoptResponseList adoptResponseList = new AdoptResponseList();
-        adoptResponseList.setList(adoptResponses);
-        adoptResponseList.setTotal(adoptResponses.size());
-        return adoptResponseList;
+        return null;
     }
+
+    @Override
+    public UserAdoptResponseList adminGetAllAdopt(Integer page, Integer size) {
+        UserAdoptResponseList list = new UserAdoptResponseList();
+        PageHelper.startPage(page,size);
+        List<UserAdoptResponse> userAdoptResponseList = new ArrayList<>();
+        List<Adopt> adoptList = adoptDao.selectAll();
+        PageInfo<Adopt> pageInfo = new PageInfo<>(adoptList);
+        for (Adopt adopt:pageInfo.getList()){
+            UserAdoptResponse userAdoptResponse = new UserAdoptResponse();
+            Animals animals = animalsDao.selectAnimalById(adopt.getAnimalId());
+            User user = userDao.selectUser(adopt.getUserId());
+            BeanUtils.copyProperties(animals,userAdoptResponse);
+            BeanUtils.copyProperties(user,userAdoptResponse);
+            BeanUtils.copyProperties(adopt,userAdoptResponse);
+            userAdoptResponse.setCreateTime(DateTimeUtil.getDateTimeToString(adopt.getCreateTime(),DateTimeUtil.DATETIME_FORMAT_YYYY_MM_DD_HH_MM));
+            userAdoptResponseList.add(userAdoptResponse);
+        }
+        list.setTotal(pageInfo.getTotal());
+        list.setList(userAdoptResponseList);
+        return list;
+    }
+
 
 }
 

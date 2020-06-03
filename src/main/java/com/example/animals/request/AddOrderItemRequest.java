@@ -1,5 +1,6 @@
 package com.example.animals.request;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -7,11 +8,10 @@ import lombok.Data;
  */
 @Data
 public class AddOrderItemRequest {
-    private Long shopCarId;
 
+    @ApiModelProperty(value = "商品id",example = "1")
     private Long goodId;
+    @ApiModelProperty(value = "数量",example = "3")
+    private Integer itemNum=1;
 
-    private Integer itemNum;
-
-    private Double subprice;
 }

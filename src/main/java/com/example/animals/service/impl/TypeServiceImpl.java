@@ -5,11 +5,13 @@ import com.example.animals.pojo.Type;
 import com.example.animals.request.AddTypeRequest;
 import com.example.animals.response.AnimalsTypeResponse;
 import com.example.animals.response.GoodTypeResponse;
+import com.example.animals.response.TypeResponse;
 import com.example.animals.service.TypeService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -48,5 +50,17 @@ public class TypeServiceImpl implements TypeService {
     @Override
     public Integer deleteTpyeById(Long id) {
         return typeDao.deleteTpyeById(id);
+    }
+
+    @Override
+    public List<TypeResponse> getAllType() {
+        List<Type> types = typeDao.selectAll();
+        List<TypeResponse> typeResponseList= new ArrayList<>();
+        for (Type type:types){
+            TypeResponse typeResponse = new TypeResponse();
+            BeanUtils.copyProperties(type,typeResponse);
+            typeResponseList.add(typeResponse);
+        }
+        return typeResponseList;
     }
 }

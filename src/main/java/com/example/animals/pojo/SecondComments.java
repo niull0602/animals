@@ -1,23 +1,25 @@
 package com.example.animals.pojo;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.GenericGenerator;
+import lombok.Data;
 
 import java.util.Date;
 import javax.persistence.*;
-@Entity
+
 @Table(name = "t_second_comments")
+@Data
 public class SecondComments {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @GenericGenerator(name = "increment", strategy = "increment")
     private Long id;
 
-    @Column(name = "user_id")
-    private Long userId;
+    @Column(name = "from_uid")
+    private Long fromUserId;
+
+    @Column(name = "to_uid")
+    private Long toUserId;
+
     @Column(name = "content",length = 100)
     private String content;
-    @CreationTimestamp
     @Column(name = "create_time")
     private Date createTime;
 
@@ -36,20 +38,6 @@ public class SecondComments {
      */
     public void setId(Long id) {
         this.id = id;
-    }
-
-    /**
-     * @return user_id
-     */
-    public Long getUserId() {
-        return userId;
-    }
-
-    /**
-     * @param userId
-     */
-    public void setUserId(Long userId) {
-        this.userId = userId;
     }
 
     /**

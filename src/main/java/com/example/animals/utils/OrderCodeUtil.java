@@ -9,6 +9,7 @@ import java.util.Date;
  */
 public class OrderCodeUtil {
     private static long orderNum = 0l;
+
     private static String date ;
     /**
      * 生成订单编号

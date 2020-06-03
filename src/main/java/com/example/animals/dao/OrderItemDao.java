@@ -20,8 +20,8 @@ public class OrderItemDao {
         return orderItemMapper.insertList(orderItemList);
     }
 
-    public List<OrderItemResponse> selectOrderItemByOrderId(Long orderId){
-        return orderItemMapper.selectOrderItemByOrderId(orderId);
-    }
 
+    public OrderItem selectOrderItemById(Long orderItemId) {
+        return orderItemMapper.selectByPrimaryKey(orderItemId);
+    }
 }

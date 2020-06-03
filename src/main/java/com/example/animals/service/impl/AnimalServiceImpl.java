@@ -1,12 +1,20 @@
 package com.example.animals.service.impl;
 
 import com.example.animals.bo.ImgBo;
+import com.example.animals.constant.AnimalsConstant;
+import com.example.animals.dao.AdoptDao;
 import com.example.animals.dao.AnimalDao;
+import com.example.animals.dao.TypeDao;
+import com.example.animals.dao.UserDao;
+import com.example.animals.pojo.Adopt;
 import com.example.animals.pojo.Animals;
+import com.example.animals.pojo.Type;
+import com.example.animals.pojo.User;
 import com.example.animals.request.AddAnimalRequest;
 import com.example.animals.response.AnimalsResponse;
 import com.example.animals.response.AnimalsResponseList;
 import com.example.animals.service.AnimalService;
+import com.example.animals.utils.DateTimeUtil;
 import com.example.animals.utils.JsonUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -25,26 +33,20 @@ import java.util.*;
  */
 @Service
 public class AnimalServiceImpl implements AnimalService {
-
+    @Autowired
+    private TypeDao typeDao;
     @Autowired
     private AnimalDao animalDao;
+    @Autowired
+    private AdoptDao adoptDao;
+    @Autowired
+    private UserDao userDao;
 
     @Override
     public Integer addAnimal(AddAnimalRequest addAnimalRequest) {
         Animals animals = new Animals();
         BeanUtils.copyProperties(addAnimalRequest,animals);
-        List<String> animalImgs = addAnimalRequest.getAnimalImgs();
-        if (!CollectionUtils.isEmpty(animalImgs)) {
-            HashMap<String, String> hashMap = new HashMap<>();
-            for (String s : animalImgs) {
-                String uuid = UUID.randomUUID().toString();
-                hashMap.put(uuid, s);
-            }
-            String json = JsonUtils.objectToJson(hashMap);
-            animals.setAnimalImgs(json);
-        }
         animals.setRegistTime(new Date());
-        animals.setStatus(0);
         return animalDao.addAnimal(animals);
     }
 
@@ -72,19 +74,15 @@ public class AnimalServiceImpl implements AnimalService {
         for (Animals animals:pageInfo.getList()) {
             AnimalsResponse animalsResponse = new AnimalsResponse();
             BeanUtils.copyProperties(animals,animalsResponse);
-            String animalImgs = animals.getAnimalImgs();
-            HashMap hashMap = JsonUtils.jsonToPoJo(animalImgs, HashMap.class);
-            if (hashMap != null){
-                List<ImgBo> imgBos = new ArrayList<>();
-                Set<String> keySet = hashMap.keySet();
-                for (String key : keySet) {
-                    ImgBo imgBo = new ImgBo();
-                    String imgUrl = hashMap.get(key).toString();
-                    imgBo.setImgUUID(key);
-                    imgBo.setImgUrl(imgUrl);
-                    imgBos.add(imgBo);
+            Type typeById = typeDao.getTypeById(animals.getTypeId());
+            animalsResponse.setTypeName(typeById.getTypeName());
+            if (animals.getStatus()== AnimalsConstant.ANIMAL_STATUS){
+                Adopt adopt = adoptDao.getUserByAnimalId(animals.getId());
+                if (null!=adopt) {
+                    User user = userDao.selectUser(adopt.getUserId());
+                    animalsResponse.setUser(user);
+                    animalsResponse.setAdoptTime(DateTimeUtil.getDateTimeToString(adopt.getCreateTime(), DateTimeUtil.DATETIME_FORMAT_YYYY_MM_DD_HH_MM));
                 }
-                animalsResponse.setImgUrls(imgBos);
             }
             animalsResponses.add(animalsResponse);
         }
@@ -104,20 +102,8 @@ public class AnimalServiceImpl implements AnimalService {
         for (Animals animals:pageInfo.getList()) {
             AnimalsResponse animalsResponse = new AnimalsResponse();
             BeanUtils.copyProperties(animals,animalsResponse);
-            String animalImgs = animals.getAnimalImgs();
-            HashMap hashMap = JsonUtils.jsonToPoJo(animalImgs, HashMap.class);
-            if (hashMap != null){
-                List<ImgBo> imgBos = new ArrayList<>();
-                Set<String> keySet = hashMap.keySet();
-                for (String key : keySet) {
-                    ImgBo imgBo = new ImgBo();
-                    String imgUrl = hashMap.get(key).toString();
-                    imgBo.setImgUUID(key);
-                    imgBo.setImgUrl(imgUrl);
-                    imgBos.add(imgBo);
-                }
-                animalsResponse.setImgUrls(imgBos);
-            }
+            Type typeById = typeDao.getTypeById(animals.getTypeId());
+            animalsResponse.setTypeName(typeById.getTypeName());
             animalsResponses.add(animalsResponse);
         }
         animalsResponseList.setAnimalsResponse(animalsResponses);
@@ -135,20 +121,8 @@ public class AnimalServiceImpl implements AnimalService {
         for (Animals animals:pageInfo.getList()) {
             AnimalsResponse animalsResponse = new AnimalsResponse();
             BeanUtils.copyProperties(animals,animalsResponse);
-            String animalImgs = animals.getAnimalImgs();
-            HashMap hashMap = JsonUtils.jsonToPoJo(animalImgs, HashMap.class);
-            if (hashMap != null){
-                List<ImgBo> imgBos = new ArrayList<>();
-                Set<String> keySet = hashMap.keySet();
-                for (String key : keySet) {
-                    ImgBo imgBo = new ImgBo();
-                    String imgUrl = hashMap.get(key).toString();
-                    imgBo.setImgUUID(key);
-                    imgBo.setImgUrl(imgUrl);
-                    imgBos.add(imgBo);
-                }
-                animalsResponse.setImgUrls(imgBos);
-            }
+            Type typeById = typeDao.getTypeById(animals.getTypeId());
+            animalsResponse.setTypeName(typeById.getTypeName());
             animalsResponses.add(animalsResponse);
         }
         animalsResponseList.setAnimalsResponse(animalsResponses);
@@ -161,18 +135,57 @@ public class AnimalServiceImpl implements AnimalService {
         Animals animals = animalDao.selectAnimalById(id);
         AnimalsResponse animalsResponse = new AnimalsResponse();
         BeanUtils.copyProperties(animals,animalsResponse);
-        String animalImgs = animals.getAnimalImgs();
-        HashMap hashMap = JsonUtils.jsonToPoJo(animalImgs, HashMap.class);
-        List<ImgBo> imgBos = new ArrayList<>();
-        Set<String> keySet = hashMap.keySet();
-        for (String key : keySet) {
-            ImgBo imgBo = new ImgBo();
-            String imgUrl = hashMap.get(key).toString();
-            imgBo.setImgUUID(key);
-            imgBo.setImgUrl(imgUrl);
-            imgBos.add(imgBo);
-        }
-        animalsResponse.setImgUrls(imgBos);
         return animalsResponse;
+    }
+
+    @Override
+    public AnimalsResponseList findAnimalByKeyword(String keyWord, Integer pageNumber, Integer size) {
+        PageHelper.startPage(pageNumber,size);
+        List<Animals> list = animalDao.findAnimalsByKeyWord(keyWord);
+        PageInfo<Animals> pageInfo = new PageInfo<>(list);
+        AnimalsResponseList animalsResponseList = new AnimalsResponseList();
+        List<AnimalsResponse> animalsResponses = new ArrayList<>();
+        for (Animals animals:pageInfo.getList()) {
+            AnimalsResponse animalsResponse = new AnimalsResponse();
+            BeanUtils.copyProperties(animals,animalsResponse);
+            Type typeById = typeDao.getTypeById(animals.getTypeId());
+            animalsResponse.setTypeName(typeById.getTypeName());
+            if (animals.getStatus()== AnimalsConstant.ANIMAL_STATUS){
+                Adopt adopt = adoptDao.getUserByAnimalId(animals.getId());
+                if (null!=adopt) {
+                    User user = userDao.selectUser(adopt.getUserId());
+                    animalsResponse.setUser(user);
+                    animalsResponse.setAdoptTime(DateTimeUtil.getDateTimeToString(adopt.getCreateTime(), DateTimeUtil.DATETIME_FORMAT_YYYY_MM_DD_HH_MM));
+                }
+            }
+            animalsResponses.add(animalsResponse);
+        }
+        animalsResponseList.setAnimalsResponse(animalsResponses);
+        animalsResponseList.setSize(pageInfo.getTotal());
+        return animalsResponseList;
+    }
+
+    @Override
+    public Integer updateAnimalById(Animals animals) {
+        return animalDao.updateAnimalById(animals);
+    }
+
+    @Override
+    public AnimalsResponseList getAnimalsByTypeId(Long typeId, Integer pageNumber, Integer size) {
+        PageHelper.startPage(pageNumber,size);
+        List<Animals> list = animalDao.getAnimalsByTypeId(typeId);
+        PageInfo<Animals> pageInfo = new PageInfo<>(list);
+        AnimalsResponseList animalsResponseList = new AnimalsResponseList();
+        List<AnimalsResponse> animalsResponses = new ArrayList<>();
+        for (Animals animals:pageInfo.getList()) {
+            AnimalsResponse animalsResponse = new AnimalsResponse();
+            BeanUtils.copyProperties(animals,animalsResponse);
+            Type typeById = typeDao.getTypeById(animals.getTypeId());
+            animalsResponse.setTypeName(typeById.getTypeName());
+            animalsResponses.add(animalsResponse);
+        }
+        animalsResponseList.setAnimalsResponse(animalsResponses);
+        animalsResponseList.setSize(pageInfo.getTotal());
+        return animalsResponseList;
     }
 }

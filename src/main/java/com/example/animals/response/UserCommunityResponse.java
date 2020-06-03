@@ -15,7 +15,7 @@ public class UserCommunityResponse {
 
     private String content;
 
-    private Date createTime;
+    private String createTime;
 
     /**
      * 发互动的多个图片

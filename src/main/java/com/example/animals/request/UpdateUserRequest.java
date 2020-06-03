@@ -1,8 +1,6 @@
 package com.example.animals.request;
 
-import com.example.animals.pojo.User;
 import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.Column;
 import java.util.Date;

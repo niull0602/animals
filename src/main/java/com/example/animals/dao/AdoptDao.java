@@ -2,7 +2,6 @@ package com.example.animals.dao;
 
 import com.example.animals.mapper.AdoptMapper;
 import com.example.animals.pojo.Adopt;
-import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import tk.mybatis.mapper.entity.Example;
@@ -104,4 +103,11 @@ public class AdoptDao {
         return adoptMapper.selectByExample(example);
     }
 
+    public List<Adopt> selectAll() {
+        return adoptMapper.selectAll();
+    }
+
+    public Adopt getUserByAnimalId(Long id) {
+        return adoptMapper.selectByPrimaryKey(id);
+    }
 }

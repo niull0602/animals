@@ -61,4 +61,20 @@ public class UserDao {
                 .andIn("id",userId);
         return userMapper.selectByExample(example);
     }
+
+    public User findByUserId(Long userId) {
+        return userMapper.selectByPrimaryKey(userId);
+    }
+
+    public List<User> findUserByKeyWord(String keyword) {
+        Example example = new Example(User.class);
+        example.createCriteria()
+                .andLike("name","%"+keyword+"%")
+                .orLike("nickName","%"+keyword+"%");
+        return userMapper.selectByExample(example);
+    }
+
+    public List<User> findAll() {
+        return userMapper.selectAll();
+    }
 }

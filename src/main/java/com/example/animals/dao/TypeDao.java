@@ -2,6 +2,7 @@ package com.example.animals.dao;
 
 import com.example.animals.mapper.TypeMapper;
 import com.example.animals.pojo.Type;
+import com.example.animals.response.TypeResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import tk.mybatis.mapper.entity.Example;
@@ -40,5 +41,9 @@ public class TypeDao {
 
     public Integer deleteTpyeById(Long id) {
         return typeMapper.deleteByPrimaryKey(id);
+    }
+
+    public List<Type> selectAll() {
+        return typeMapper.selectAll();
     }
 }

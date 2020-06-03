@@ -5,6 +5,7 @@ import com.example.animals.pojo.Community;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import tk.mybatis.mapper.entity.Condition;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
@@ -21,10 +22,9 @@ public class CommunityDao {
     private CommunityMapper communityMapper;
 
     public List<Community> findAll() {
-        Example example = new Example(Community.class);
-        List<Community> communities = communityMapper.selectByExample(example);
-        log.info("dao层查询的communityList-{}", communities);
-        return communities;
+        Condition condition = new Condition(Community.class);
+        condition.setOrderByClause("create_time desc");
+        return communityMapper.selectByExample(condition);
     }
 
     public Community findById(Long id) {

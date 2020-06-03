@@ -1,21 +1,7 @@
 package com.example.animals.response;
 
-import com.example.animals.pojo.Goods;
-import lombok.Data;
-import lombok.ToString;
-
 /**
- * Created by lemon on 2020-02-20 22:04.
+ * Created by NiuLilu on 2020-05-24 10:48.
  */
-@Data
-@ToString
 public class OrderItemResponse {
-    private Long id;
-
-    private Goods good;
-
-    private Integer itemNum;
-
-    private Double subprice;
-
 }

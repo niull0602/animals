@@ -2,28 +2,23 @@ package com.example.animals.pojo;
 
 import lombok.Data;
 import lombok.ToString;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.GenericGenerator;
 
 import java.util.Date;
 import javax.persistence.*;
 
 @Table(name = "t_community")
 @ToString
-@Entity
-@org.hibernate.annotations.Table(appliesTo = "t_community",comment="互动区表")
 @Data
 public class Community {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @GenericGenerator(name = "increment", strategy = "increment")
     private Long id;
 
     @Column(name = "adopt_id")
     private Long adoptId;
 //user
     private String content;
-    @CreationTimestamp
+
     @Column(name = "create_time")
     private Date createTime;
 

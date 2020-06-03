@@ -18,4 +18,7 @@ public interface OrderService {
 
     OrdersResponseList getAllOrders(Integer pageNumber, Integer pageSize);
 
+    OrdersResponseList getOrdersByStatus(Integer status, Integer pageNumber, Integer pageSize);
+
+    OrdersResponseList getOrdersByStatusAndUserId(Long userId, Integer status, Integer pageNumber, Integer pageSize);
 }

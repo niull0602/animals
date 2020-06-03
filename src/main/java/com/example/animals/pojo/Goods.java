@@ -1,20 +1,16 @@
 package com.example.animals.pojo;
 
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.UpdateTimestamp;
 
-import java.util.Date;
 import javax.persistence.*;
+import java.util.Date;
+
 
 
 @Table(name = "t_goods")
-@Entity
 public class Goods {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @GenericGenerator(name = "increment", strategy = "increment")
     private Long id;
 
     @Column(name = "good_name",length = 30)
@@ -34,10 +30,10 @@ public class Goods {
 
     @Column(name = "good_imgs")
     private String goodImgs;
-    @CreationTimestamp
+
     @Column(name = "create_time")
     private Date createTime;
-    @UpdateTimestamp
+
     @Column(name = "update_time")
     private Date updateTime;
 

@@ -1,11 +1,9 @@
 package com.example.animals.pojo;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.GenericGenerator;
 
 import java.util.Date;
 import javax.persistence.*;
-@Entity
+
 @Table(name = "t_video")
 public class Video {
     @Id
@@ -29,7 +27,6 @@ public class Video {
      */
     @Column(name = "adopt_status",columnDefinition = "int comment '0：待救助  1：自养  '")
     private Integer adoptStatus;
-    @CreationTimestamp
     @Column(name = "create_time")
     private Date createTime;
 

@@ -9,7 +9,7 @@ import lombok.ToString;
 @Data
 @ToString
 public class AddShopCarRequest {
-    private Long userId;
+   // private Long userId;
 
     private Long goodId;
 

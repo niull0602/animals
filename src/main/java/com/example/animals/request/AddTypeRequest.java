@@ -10,4 +10,6 @@ public class AddTypeRequest {
     private String code;
 
     private String typeName;
+
+    private String typeUrl;
 }

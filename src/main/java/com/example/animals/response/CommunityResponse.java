@@ -1,6 +1,7 @@
 package com.example.animals.response;
 
 import com.example.animals.bo.ImgBo;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.util.Date;
@@ -18,19 +19,25 @@ public class CommunityResponse {
     private Long id;
 
     private Long userId;
-
+    @ApiModelProperty(value = "网名")
     private String nickName;
+    @ApiModelProperty(value = "真实姓名")
+    private String name;
+    @ApiModelProperty(value = "头像")
+    private String imgUrl;
 
-    private String headimgUrl;
+    private Long phoneNumber;
 
     private String content;
-
-    private Date createTime;
+    @ApiModelProperty(value = "发表时间")
+    private String createTime;
 
     /**
      * 发互动的多个图片
      */
 
     private List<ImgBo> imgUrlsBoList;
+
+    private List<OneCommentResponse> commentResponseList;
 
 }

@@ -1,5 +1,6 @@
 package com.example.animals.service;
 
+import com.example.animals.pojo.Animals;
 import com.example.animals.request.AddAnimalRequest;
 import com.example.animals.response.AnimalsResponse;
 import com.example.animals.response.AnimalsResponseList;
@@ -24,4 +25,11 @@ public interface AnimalService {
     AnimalsResponseList selectAllAnimalToUser(Integer pageNumber, Integer size);
 
     AnimalsResponse selectAnimalById(Long id);
+
+    AnimalsResponseList findAnimalByKeyword(String keyWord, Integer pageNumber, Integer size);
+
+    Integer updateAnimalById(Animals animals);
+
+    AnimalsResponseList getAnimalsByTypeId(Long typeId, Integer pageNumber, Integer size);
+
 }

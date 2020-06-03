@@ -11,4 +11,6 @@ public class TypeResponse {
     private Long id;
 
     private String typeName;
+
+    private String typeUrl;
 }

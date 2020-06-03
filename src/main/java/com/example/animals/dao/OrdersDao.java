@@ -21,7 +21,7 @@ public class OrdersDao {
     }
 
     public Integer update(Orders orders) {
-        return ordersMapper.updateByPrimaryKey(orders);
+        return ordersMapper.updateByPrimaryKeySelective(orders);
     }
 
     public List<Orders> getOrdersByUserId(Long userId) {
@@ -37,5 +37,20 @@ public class OrdersDao {
 
     public List<Orders> getAllOrders() {
         return ordersMapper.selectAll();
+    }
+
+    public List<Orders> getOrdersByStatus(Integer status) {
+        Example example = new Example(Orders.class);
+        example.createCriteria()
+                .andEqualTo("status",status);
+        return ordersMapper.selectByExample(example);
+    }
+
+    public List<Orders> getOrdersByStatusAndUserId(Long userId, Integer status) {
+        Example example = new Example(Orders.class);
+        example.createCriteria()
+                .andEqualTo("userId",userId)
+                .andEqualTo("status",status);
+        return ordersMapper.selectByExample(example);
     }
 }

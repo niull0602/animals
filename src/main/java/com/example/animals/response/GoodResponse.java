@@ -22,5 +22,8 @@ public class GoodResponse {
 
     private String goodImg;
 
-    private List<ImgBo> goodsImgBoList;
+    private Long typeId;
+
+    private String typeName;
+
 }

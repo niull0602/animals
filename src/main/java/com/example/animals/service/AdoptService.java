@@ -38,4 +38,6 @@ public interface AdoptService {
 
 
     AdoptResponseList findIllegalAdopt(Integer page, Integer size);
+
+    UserAdoptResponseList adminGetAllAdopt(Integer page, Integer size);
 }

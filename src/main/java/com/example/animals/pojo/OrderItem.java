@@ -1,17 +1,15 @@
 package com.example.animals.pojo;
 
 import lombok.ToString;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
-@Entity
+
 @Table(name = "t_order_item")
 @ToString
 public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @GenericGenerator(name = "increment", strategy = "increment")
     private Long id;
 
     @Column(name = "good_id")

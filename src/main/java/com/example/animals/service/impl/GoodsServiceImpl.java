@@ -4,6 +4,7 @@ import java.util.*;
 
 import com.example.animals.bo.ImgBo;
 import com.example.animals.dao.GoodsDao;
+import com.example.animals.dao.TypeDao;
 import com.example.animals.pojo.Goods;
 import com.example.animals.request.AddGoodRequest;
 import com.example.animals.request.GoodsRequest;
@@ -28,6 +29,8 @@ import org.springframework.util.StringUtils;
 public class GoodsServiceImpl implements GoodsService {
     @Autowired
     private GoodsDao goodsDao;
+    @Autowired
+    private TypeDao typeDao;
 
     @Override
     public Integer upateGoods(GoodsRequest goodsRequest) {
@@ -59,21 +62,8 @@ public class GoodsServiceImpl implements GoodsService {
             for (Goods good : list) {
                 GoodResponse goodResponse = new GoodResponse();
                 BeanUtils.copyProperties(good, goodResponse);
-                String goodImgs = good.getGoodImgs();
-                if (goodImgs != null && !StringUtils.isEmpty(goodImgs)) {
-                    HashMap hashMap = JsonUtils.jsonToPoJo(goodImgs, HashMap.class);
-                    List<ImgBo> goodsImgBos = new ArrayList<>();
-                    Set<String> keySet = hashMap.keySet();
-                    for (String key : keySet) {
-                        ImgBo goodsImgBo = new ImgBo();
-                        String imgUrl = hashMap.get(key).toString();
-                        goodsImgBo.setImgUUID(key);
-                        goodsImgBo.setImgUrl(imgUrl);
-                        goodsImgBos.add(goodsImgBo);
-                    }
-                    goodResponse.setGoodsImgBoList(goodsImgBos);
-                    goodResponseList.add(goodResponse);
-                }
+                goodResponse.setTypeName(typeDao.getTypeById(good.getTypeId()).getTypeName());
+                goodResponseList.add(goodResponse);
             }
             goodSearchResponse.setGoodsList(goodResponseList);
             goodSearchResponse.setTotal(pageInfo.getTotal());
@@ -88,21 +78,8 @@ public class GoodsServiceImpl implements GoodsService {
             for (Goods good : list) {
                 GoodResponse goodResponse = new GoodResponse();
                 BeanUtils.copyProperties(good, goodResponse);
-                String goodImgs = good.getGoodImgs();
-                if (goodImgs != null && !StringUtils.isEmpty(goodImgs)) {
-                    HashMap hashMap = JsonUtils.jsonToPoJo(goodImgs, HashMap.class);
-                    List<ImgBo> goodsImgBos = new ArrayList<>();
-                    Set<String> keySet = hashMap.keySet();
-                    for (String key : keySet) {
-                        ImgBo goodsImgBo = new ImgBo();
-                        String imgUrl = hashMap.get(key).toString();
-                        goodsImgBo.setImgUUID(key);
-                        goodsImgBo.setImgUrl(imgUrl);
-                        goodsImgBos.add(goodsImgBo);
-                    }
-                    goodResponse.setGoodsImgBoList(goodsImgBos);
-                    goodResponseList.add(goodResponse);
-                }
+                goodResponse.setTypeName(typeDao.getTypeById(good.getTypeId()).getTypeName());
+                goodResponseList.add(goodResponse);
             }
             goodSearchResponse.setGoodsList(goodResponseList);
             goodSearchResponse.setTotal(pageInfo.getTotal());
@@ -121,18 +98,7 @@ public class GoodsServiceImpl implements GoodsService {
         for (Goods good : list) {
             GoodResponse goodResponse = new GoodResponse();
             BeanUtils.copyProperties(good, goodResponse);
-            String goodImgs = good.getGoodImgs();
-            HashMap hashMap = JsonUtils.jsonToPoJo(goodImgs, HashMap.class);
-            List<ImgBo> goodsImgBos = new ArrayList<>();
-            Set<String> keySet = hashMap.keySet();
-            for (String key : keySet) {
-                ImgBo goodsImgBo = new ImgBo();
-                String imgUrl = hashMap.get(key).toString();
-                goodsImgBo.setImgUUID(key);
-                goodsImgBo.setImgUrl(imgUrl);
-                goodsImgBos.add(goodsImgBo);
-            }
-            goodResponse.setGoodsImgBoList(goodsImgBos);
+            goodResponse.setTypeName(typeDao.getTypeById(good.getTypeId()).getTypeName());
             goodResponseList.add(goodResponse);
         }
         goodSearchResponse.setGoodsList(goodResponseList);
@@ -152,21 +118,8 @@ public class GoodsServiceImpl implements GoodsService {
         for (Goods good : list) {
             GoodResponse goodResponse = new GoodResponse();
             BeanUtils.copyProperties(good, goodResponse);
-            String goodImgs = good.getGoodImgs();
-            if (goodImgs != null && !StringUtils.isEmpty(goodImgs)) {
-                HashMap hashMap = JsonUtils.jsonToPoJo(goodImgs, HashMap.class);
-                List<ImgBo> goodsImgBos = new ArrayList<>();
-                Set<String> keySet = hashMap.keySet();
-                for (String key : keySet) {
-                    ImgBo goodsImgBo = new ImgBo();
-                    String imgUrl = hashMap.get(key).toString();
-                    goodsImgBo.setImgUUID(key);
-                    goodsImgBo.setImgUrl(imgUrl);
-                    goodsImgBos.add(goodsImgBo);
-                }
-                goodResponse.setGoodsImgBoList(goodsImgBos);
-                goodResponseList.add(goodResponse);
-            }
+            goodResponse.setTypeName(typeDao.getTypeById(good.getTypeId()).getTypeName());
+            goodResponseList.add(goodResponse);
         }
         goodSearchResponse.setGoodsList(goodResponseList);
         goodSearchResponse.setTotal(pageInfo.getTotal());
@@ -184,21 +137,8 @@ public class GoodsServiceImpl implements GoodsService {
         for (Goods good : list) {
             GoodResponse goodResponse = new GoodResponse();
             BeanUtils.copyProperties(good, goodResponse);
-            String goodImgs = good.getGoodImgs();
-            if (goodImgs != null && !StringUtils.isEmpty(goodImgs)) {
-                HashMap hashMap = JsonUtils.jsonToPoJo(goodImgs, HashMap.class);
-                List<ImgBo> goodsImgBos = new ArrayList<>();
-                Set<String> keySet = hashMap.keySet();
-                for (String key : keySet) {
-                    ImgBo goodsImgBo = new ImgBo();
-                    String imgUrl = hashMap.get(key).toString();
-                    goodsImgBo.setImgUUID(key);
-                    goodsImgBo.setImgUrl(imgUrl);
-                    goodsImgBos.add(goodsImgBo);
-                }
-                goodResponse.setGoodsImgBoList(goodsImgBos);
-                goodResponseList.add(goodResponse);
-            }
+            goodResponse.setTypeName(typeDao.getTypeById(good.getTypeId()).getTypeName());
+            goodResponseList.add(goodResponse);
         }
         goodSearchResponse.setGoodsList(goodResponseList);
         goodSearchResponse.setTotal(pageInfo.getTotal());
@@ -210,18 +150,6 @@ public class GoodsServiceImpl implements GoodsService {
         Goods good = goodsDao.findGoodsById(id);
         GoodResponse goodResponse = new GoodResponse();
         BeanUtils.copyProperties(good, goodResponse);
-        String goodImgs = good.getGoodImgs();
-        HashMap hashMap = JsonUtils.jsonToPoJo(goodImgs, HashMap.class);
-        List<ImgBo> goodsImgBos = new ArrayList<>();
-        Set<String> keySet = hashMap.keySet();
-        for (String key : keySet) {
-            ImgBo goodsImgBo = new ImgBo();
-            String imgUrl = hashMap.get(key).toString();
-            goodsImgBo.setImgUUID(key);
-            goodsImgBo.setImgUrl(imgUrl);
-            goodsImgBos.add(goodsImgBo);
-        }
-        goodResponse.setGoodsImgBoList(goodsImgBos);
         return goodResponse;
     }
 
@@ -234,17 +162,6 @@ public class GoodsServiceImpl implements GoodsService {
     public Integer addGood(AddGoodRequest addGoodRequest) {
         Goods goods = new Goods();
         BeanUtils.copyProperties(addGoodRequest, goods);
-        List<String> goodsImgBoList = addGoodRequest.getGoodsImgBoList();
-        if (!CollectionUtils.isEmpty(goodsImgBoList)) {
-            HashMap<String, String> hashMap = new HashMap<>();
-            for (String s : goodsImgBoList) {
-                String uuid = UUID.randomUUID().toString();
-                hashMap.put(uuid, s);
-            }
-            String json = JsonUtils.objectToJson(hashMap);
-            log.info("GoodImgs-{}", json);
-            goods.setGoodImgs(json);
-        }
         goods.setCreateTime(new Date());
         goods.setUpdateTime(new Date());
         return goodsDao.insertGoods(goods);

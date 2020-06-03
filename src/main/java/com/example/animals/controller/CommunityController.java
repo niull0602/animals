@@ -6,6 +6,7 @@ import com.example.animals.response.CommunityResponse;
 import com.example.animals.response.CommunitySearchResponse;
 import com.example.animals.response.UserCommunityResponseList;
 import com.example.animals.service.CommunityService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,16 +21,16 @@ public class CommunityController {
 
     @Autowired
     private CommunityService communityService;
-
+    @ApiOperation("admin查看所有")
     @GetMapping("/find/all")
     public SzpJsonResult<CommunitySearchResponse> findAll(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                                           @RequestParam(value = "size", defaultValue = "10") Integer size) {
         return SzpJsonResult.ok(communityService.findAll(page, size));
 
     }
-
-    @GetMapping("/find/{id}")
-    public SzpJsonResult<CommunityResponse> findById(@PathVariable("id") Long id) {
+    @ApiOperation("通过id查询详情")
+    @GetMapping("/find/id")
+    public SzpJsonResult<CommunityResponse> findById(@RequestParam(value = "id") Long id) {
         return SzpJsonResult.ok(communityService.findById(id));
     }
 
@@ -40,7 +41,7 @@ public class CommunityController {
     }
 
 
-    @GetMapping("/find/community")
+    @GetMapping("/find/community/like")
     public SzpJsonResult<CommunitySearchResponse> findCommunitiesContentLike(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "size", defaultValue = "10") Integer size
@@ -68,7 +69,7 @@ public class CommunityController {
     public SzpJsonResult<Integer> detete(@PathVariable("id") Long id) {
         return SzpJsonResult.ok(communityService.deleteCommunityById(id));
     }
-
+    @ApiOperation("添加论坛")
     @PostMapping("/insert")
     public SzpJsonResult<Integer> insertCommunity(@RequestBody AddCommunityRequest addCommunityRequest) {
         return SzpJsonResult.ok(communityService.insertCommunity(addCommunityRequest));

@@ -11,5 +11,6 @@ import java.util.List;
 @Data
 @ToString
 public class UserAdoptResponseList {
-    List<UserAdoptResponse> list;
+    private List<UserAdoptResponse> list;
+    private Long total;
 }

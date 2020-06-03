@@ -1,20 +1,16 @@
 package com.example.animals.pojo;
 
 import lombok.ToString;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.GenericGenerator;
+
 
 import java.util.Date;
 import javax.persistence.*;
 
 @Table(name = "t_award")
 @ToString
-@Entity
-@org.hibernate.annotations.Table(appliesTo = "t_award",comment="打赏关系表")
 public class Award {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @GenericGenerator(name = "increment", strategy = "increment")
     private Long id;
 
     @Column(name = "user_id")
@@ -24,7 +20,7 @@ public class Award {
     private Long animalId;
 
     private Double money;
-    @CreationTimestamp
+
     @Column(name = "create_time")
     private Date createTime;
 

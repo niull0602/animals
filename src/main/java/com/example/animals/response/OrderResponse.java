@@ -1,5 +1,7 @@
 package com.example.animals.response;
 
+import com.example.animals.pojo.Goods;
+import com.example.animals.pojo.User;
 import lombok.Data;
 
 import java.util.Date;
@@ -18,7 +20,13 @@ public class OrderResponse {
 
     private Integer status;
 
-    private Date createTime;
+    private String createTime;
 
-    private List<OrderItemResponse> itemList;
+    private Long goodId;
+
+    private Goods good;
+
+    private Integer itemNum;
+
+    private User user;
 }

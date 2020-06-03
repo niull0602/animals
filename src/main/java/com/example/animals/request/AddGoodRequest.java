@@ -22,11 +22,6 @@ public class AddGoodRequest {
      */
     private String goodImg;
 
-
-    /**
-     * 商品详情多图
-     */
-    private List<String> goodsImgBoList;
     /**
      * 商品的种类
      */

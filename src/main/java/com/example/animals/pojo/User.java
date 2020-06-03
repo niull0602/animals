@@ -1,18 +1,15 @@
 package com.example.animals.pojo;
 
 import lombok.ToString;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.GenericGenerator;
 
 import java.util.Date;
 import javax.persistence.*;
-@Entity
+
 @Table(name = "t_user")
 @ToString
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @GenericGenerator(name = "increment", strategy = "increment")
     private Long id;
 
     @Column(name = "phone_number",unique = true,columnDefinition = "bigint comment '手机号码/账号'")
@@ -43,7 +40,7 @@ public class User {
      */
     @Column(columnDefinition = "double comment '余额'")
     private Double money;
-    @CreationTimestamp
+
     @Column(name = "create_time")
     private Date createTime;
 

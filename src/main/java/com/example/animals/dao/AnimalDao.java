@@ -2,7 +2,6 @@ package com.example.animals.dao;
 
 import com.example.animals.mapper.AnimalsMapper;
 import com.example.animals.pojo.Animals;
-import com.example.animals.response.AnimalsResponseList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import tk.mybatis.mapper.entity.Example;
@@ -59,6 +58,24 @@ public class AnimalDao {
         Example example = new Example(Animals.class);
         example.createCriteria()
                 .andIn("id",animalId);
+        return animalsMapper.selectByExample(example);
+    }
+
+    public List<Animals> findAnimalsByKeyWord(String keyWord) {
+        Example example = new Example(Animals.class);
+        example.createCriteria()
+                .andLike("animalName","%"+keyWord+"%");
+        return animalsMapper.selectByExample(example);
+    }
+
+    public Integer updateAnimalById(Animals animals) {
+        return animalsMapper.updateByPrimaryKeySelective(animals);
+    }
+
+    public List<Animals> getAnimalsByTypeId(Long typeId) {
+        Example example = new Example(Animals.class);
+        example.createCriteria()
+                .andEqualTo("typeId",typeId);
         return animalsMapper.selectByExample(example);
     }
 }

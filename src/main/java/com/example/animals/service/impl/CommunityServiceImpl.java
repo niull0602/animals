@@ -4,15 +4,13 @@ import com.example.animals.bo.ImgBo;
 import com.example.animals.dao.AdoptDao;
 import com.example.animals.dao.CommunityDao;
 import com.example.animals.dao.UserDao;
-import com.example.animals.pojo.Adopt;
 import com.example.animals.pojo.Community;
 import com.example.animals.pojo.User;
 import com.example.animals.request.AddCommunityRequest;
-import com.example.animals.response.CommunityResponse;
-import com.example.animals.response.CommunitySearchResponse;
-import com.example.animals.response.UserCommunityResponse;
-import com.example.animals.response.UserCommunityResponseList;
+import com.example.animals.response.*;
 import com.example.animals.service.CommunityService;
+import com.example.animals.service.OneCommentService;
+import com.example.animals.utils.DateTimeUtil;
 import com.example.animals.utils.JsonUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -38,62 +36,53 @@ import java.util.*;
 public class CommunityServiceImpl implements CommunityService {
     @Autowired
     private CommunityDao communityDao;
-
     @Autowired
     private UserDao userDao;
-
     @Autowired
     private AdoptDao adoptDao;
+    @Autowired
+    private OneCommentService oneCommentService;
 
     @Override
     public CommunitySearchResponse findAll(Integer page, Integer size) {
         PageHelper.startPage(page, size);
-         List<Community> communityList = communityDao.findAll();//不在dao层分页了
+        List<Community> communityList = communityDao.findAll();//不在dao层分页了
         log.info("数据库查询的communityList-{}", communityList);
         PageInfo<Community> communityPageInfo = new PageInfo<>(communityList);
         List<Community> list = communityPageInfo.getList();
         log.info("pageInfo的communityList-{}", list);
         List<CommunityResponse> communityResponseList = new ArrayList<>();
-         for (Community community : list) {
+        for (Community community : list) {
             CommunityResponse communityResponse = new CommunityResponse();
-             BeanUtils.copyProperties(community, communityResponse);
-            log.info("复制后的communityResponse的各属性-{}", communityResponse);
-            //给CommunityResponse注入User的所有属性
-            Long userId = community.getUserId();
-            //直接通过userId去找表里查user的所有信息
-            User user = userDao.selectUser(userId);
-             String userImgUrl = user.getImgUrl();
-
-            //返回user相关的信息
-            communityResponse.setHeadimgUrl(userImgUrl);
-            communityResponse.setUserId(userId);
-            communityResponse.setNickName(user.getNickName());
-
+            BeanUtils.copyProperties(community, communityResponse);
+            User user = userDao.selectUser(community.getUserId());
+            BeanUtils.copyProperties(user, communityResponse);
+            communityResponse.setId(community.getId());
             String imgUrls = community.getImgUrls();
             //把url转化为pojo最后再转化为json格式
             List<ImgBo> imgBoList = getImgsBoList(imgUrls);
             communityResponse.setImgUrlsBoList(imgBoList);
+            communityResponse.setCreateTime(DateTimeUtil.getDateTimeToString(community.getCreateTime(),DateTimeUtil.DATETIME_FORMAT_YYYY_MM_DD_HH_MM));
             communityResponseList.add(communityResponse);
         }
-
         return getCommunitySearchResponse(communityResponseList);
     }
 
     @Override
     public CommunityResponse findById(Long id) {
-
         Community community = communityDao.findById(id);
         CommunityResponse communityResponse = new CommunityResponse();
-        BeanUtils.copyProperties(community, communityResponse);
         Long userId = community.getUserId();
         User user = userDao.selectUser(userId);
-        communityResponse.setUserId(userId);
-        communityResponse.setNickName(user.getNickName());
-        communityResponse.setHeadimgUrl(user.getImgUrl());
-
+        BeanUtils.copyProperties(user,communityResponse);
+        communityResponse.setContent(community.getContent());
+        communityResponse.setId(community.getId());
         String imgUrls = community.getImgUrls();
         List<ImgBo> imgBosList = getImgsBoList(imgUrls);
         communityResponse.setImgUrlsBoList(imgBosList);
+        communityResponse.setCreateTime(DateTimeUtil.getDateTimeToString(community.getCreateTime(),DateTimeUtil.DATETIME_FORMAT_YYYY_MM_DD_HH_MM));
+        List<OneCommentResponse> oneCommentResponses = oneCommentService.findCommentByCommuntyId(1,10,community.getId());
+        communityResponse.setCommentResponseList(oneCommentResponses);
         return communityResponse;
     }
 
@@ -109,7 +98,7 @@ public class CommunityServiceImpl implements CommunityService {
             //将数据库查出的user的需要的字段封装待communityResponse
             communityResponse.setUserId(user.getId());
             communityResponse.setNickName(user.getNickName());
-            communityResponse.setHeadimgUrl(user.getImgUrl());
+            communityResponse.setImgUrl(user.getImgUrl());
 
             String imgUrls = community.getImgUrls();
 
@@ -135,10 +124,11 @@ public class CommunityServiceImpl implements CommunityService {
             //将数据库查出的user的需要的字段封装到communityResponse
             communityResponse.setUserId(user.getId());
             communityResponse.setNickName(user.getNickName());
-            communityResponse.setHeadimgUrl(user.getImgUrl());
+            communityResponse.setImgUrl(user.getImgUrl());
             String imgUrls = community.getImgUrls();
             List<ImgBo> imgsBoList = getImgsBoList(imgUrls);
             communityResponse.setImgUrlsBoList(imgsBoList);
+            communityResponse.setCreateTime(DateTimeUtil.getDateTimeToString(community.getCreateTime(),DateTimeUtil.DATETIME_FORMAT_YYYY_MM_DD_HH_MM));
             communityResponseList.add(communityResponse);
         }
 
@@ -148,12 +138,27 @@ public class CommunityServiceImpl implements CommunityService {
 
     @Override
     public CommunitySearchResponse searchCommunities(Integer page, Integer size, String content) {
-
-        if (!StringUtils.isEmpty(content)) {
-            return findCommunitiesContentLike(page, size, content);
-        } else {
-            return findAll(page, size);
+        PageHelper.startPage(page, size);
+        List<Community> communityList = communityDao.findCommunityContentLike(content);
+        PageInfo<Community> communityPageInfo = new PageInfo<>(communityList);
+        List<Community> list = communityPageInfo.getList();
+        log.info("pageInfo的communityList-{}", list);
+        List<CommunityResponse> communityResponseList = new ArrayList<>();
+        for (Community community : list) {
+            CommunityResponse communityResponse = new CommunityResponse();
+            BeanUtils.copyProperties(community, communityResponse);
+            User user = userDao.selectUser(community.getUserId());
+            BeanUtils.copyProperties(user, communityResponse);
+            communityResponse.setId(community.getId());
+            String imgUrls = community.getImgUrls();
+            //把url转化为pojo最后再转化为json格式
+            List<ImgBo> imgBoList = getImgsBoList(imgUrls);
+            communityResponse.setImgUrlsBoList(imgBoList);
+            communityResponse.setCreateTime(DateTimeUtil.getDateTimeToString(community.getCreateTime(),DateTimeUtil.DATETIME_FORMAT_YYYY_MM_DD_HH_MM));
+            communityResponseList.add(communityResponse);
         }
+        return getCommunitySearchResponse(communityResponseList);
+
     }
 
     private List<ImgBo> getImgsBoList(String imgUrls) {
@@ -162,7 +167,6 @@ public class CommunityServiceImpl implements CommunityService {
             return null;
         }
         HashMap imgUrlsMap = JsonUtils.jsonToPoJo(imgUrls, HashMap.class);
-
         List<ImgBo> imgBosList = new ArrayList<>();
         Set<String> urlsKeys = imgUrlsMap.keySet();
         //通过遍历keySet 取imgUrlsMap里的每个Value作为imgBoList的元素
@@ -212,9 +216,6 @@ public class CommunityServiceImpl implements CommunityService {
     public Integer insertCommunity(AddCommunityRequest addCommunityRequest) {
         Community community = new Community();
         BeanUtils.copyProperties(addCommunityRequest, community);
-        Long adoptId = addCommunityRequest.getAdoptId();
-        Adopt adoptDaoById = adoptDao.findById(adoptId);
-        community.setUserId(adoptDaoById.getUserId());
         List<String> imgUrlsList = addCommunityRequest.getImgUrlsList();
         if (!CollectionUtils.isEmpty(imgUrlsList)) {
             Map<String, Object> urlsMap = new HashMap<>();
@@ -231,15 +232,15 @@ public class CommunityServiceImpl implements CommunityService {
 
     @Override
     public UserCommunityResponseList findCommunitiesByUserId(Integer page, Integer size, Long userId) {
-        PageHelper.startPage(page,size);
+        PageHelper.startPage(page, size);
         List<Community> communityList = communityDao.selectByUserId(userId);
         PageInfo<Community> pageInfo = new PageInfo<>(communityList);
         UserCommunityResponseList userCommunityResponseList = new UserCommunityResponseList();
         List<UserCommunityResponse> userCommunityResponses = new ArrayList<>();
         List<Community> list = pageInfo.getList();
-        for (Community community:list){
+        for (Community community : list) {
             UserCommunityResponse userCommunityResponse = new UserCommunityResponse();
-            BeanUtils.copyProperties(community,userCommunityResponse);
+            BeanUtils.copyProperties(community, userCommunityResponse);
             String imgUrls = community.getImgUrls();
             HashMap hashMap = JsonUtils.jsonToPoJo(imgUrls, HashMap.class);
             List<ImgBo> imgBos = new ArrayList<>();
@@ -251,6 +252,7 @@ public class CommunityServiceImpl implements CommunityService {
                 imgBo.setImgUrl(imgUrl);
                 imgBos.add(imgBo);
             }
+            userCommunityResponse.setCreateTime(DateTimeUtil.getDateTimeToString(community.getCreateTime(),DateTimeUtil.DATETIME_FORMAT_YYYYMMDDHH));
             userCommunityResponse.setImgUrlsBoList(imgBos);
             userCommunityResponses.add(userCommunityResponse);
         }

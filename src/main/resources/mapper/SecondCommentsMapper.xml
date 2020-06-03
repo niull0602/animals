@@ -6,7 +6,8 @@
       WARNING - @mbg.generated
     -->
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="from_uid" jdbcType="BIGINT" property="fromUserId" />
+    <result column="to_uid" jdbcType="BIGINT" property="toUserId" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="one_comment_id" jdbcType="BIGINT" property="oneCommentId" />

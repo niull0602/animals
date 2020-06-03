@@ -1,23 +1,25 @@
 package com.example.animals.pojo;
 
+import lombok.Data;
 import lombok.ToString;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
 @ToString
-@Entity
+@Data
 @Table(name = "t_type")
 public class Type {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @GenericGenerator(name = "increment", strategy = "increment")
     private Long id;
     @Column(name = "code",length = 20)
     private String code;
 
     @Column(name = "type_name",length = 20)
     private String typeName;
+
+    @Column(name = "type_url")
+    private String typeUrl;
 
     /**
      * @return id

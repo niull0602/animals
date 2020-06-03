@@ -89,7 +89,7 @@ public class OrderServiceImpl implements OrderService {
             orderResponse.setGoodId(orderItem.getGoodId());
             orderResponse.setItemNum(orderItem.getItemNum());
             orderResponse.setCreateTime(DateTimeUtil.getDateTimeToString(order.getCreateTime(),DateTimeUtil.DATETIME_FORMAT_YYYY_MM_DD_HH_MM));
-            orderResponse.setGood(goodsDao.findGoodsById(orderItem.getId()));
+            orderResponse.setGood(goodsDao.findGoodsById(orderItem.getGoodId()));
             orderResponse.setUser(userDao.selectUser(order.getUserId()));
             orderResponseList.add(orderResponse);
         }
@@ -120,7 +120,7 @@ public class OrderServiceImpl implements OrderService {
             OrderItem orderItem = orderItemDao.selectOrderItemById(orderShip.getOrderItemId());
             orderResponse.setGoodId(orderItem.getGoodId());
             orderResponse.setItemNum(orderItem.getItemNum());
-            orderResponse.setGood(goodsDao.findGoodsById(orderItem.getId()));
+            orderResponse.setGood(goodsDao.findGoodsById(orderItem.getGoodId()));
             orderResponse.setUser(userDao.selectUser(order.getUserId()));
             orderResponse.setCreateTime(DateTimeUtil.getDateTimeToString(order.getCreateTime(),DateTimeUtil.DATETIME_FORMAT_YYYY_MM_DD_HH_MM));
             orderResponseList.add(orderResponse);
@@ -146,7 +146,7 @@ public class OrderServiceImpl implements OrderService {
             OrderItem orderItem = orderItemDao.selectOrderItemById(orderShip.getOrderItemId());
             orderResponse.setGoodId(orderItem.getGoodId());
             orderResponse.setItemNum(orderItem.getItemNum());
-            orderResponse.setGood(goodsDao.findGoodsById(orderItem.getId()));
+            orderResponse.setGood(goodsDao.findGoodsById(orderItem.getGoodId()));
             orderResponse.setUser(userDao.selectUser(order.getUserId()));
             orderResponse.setCreateTime(DateTimeUtil.getDateTimeToString(order.getCreateTime(),DateTimeUtil.DATETIME_FORMAT_YYYY_MM_DD_HH_MM));
             orderResponseList.add(orderResponse);
@@ -172,7 +172,7 @@ public class OrderServiceImpl implements OrderService {
             OrderItem orderItem = orderItemDao.selectOrderItemById(orderShip.getOrderItemId());
             orderResponse.setGoodId(orderItem.getGoodId());
             orderResponse.setItemNum(orderItem.getItemNum());
-            orderResponse.setGood(goodsDao.findGoodsById(orderItem.getId()));
+            orderResponse.setGood(goodsDao.findGoodsById(orderItem.getGoodId()));
             orderResponse.setUser(userDao.selectUser(order.getUserId()));
             orderResponse.setCreateTime(DateTimeUtil.getDateTimeToString(order.getCreateTime(),DateTimeUtil.DATETIME_FORMAT_YYYY_MM_DD_HH_MM));
             orderResponseList.add(orderResponse);

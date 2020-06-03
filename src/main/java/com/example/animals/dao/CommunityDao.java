@@ -58,8 +58,8 @@ public class CommunityDao {
     public List<Community> findCommunityContentLike(String content) {
         Example example = new Example(Community.class);
         example.createCriteria()
-                .andLike("content", "%" + content + "%");
-
+                .andLike("content", "%" + content + "%")
+                .andCondition("order by create_time desc");
         return communityMapper.selectByExample(example);
     }
 

@@ -139,7 +139,12 @@ public class CommunityServiceImpl implements CommunityService {
     @Override
     public CommunitySearchResponse searchCommunities(Integer page, Integer size, String content) {
         PageHelper.startPage(page, size);
-        List<Community> communityList = communityDao.findCommunityContentLike(content);
+        List<Community> communityList = null;
+        if (StringUtils.isEmpty(content)) {
+            communityList = communityDao.findCommunityContentLike(content);
+        }else {
+            communityList = communityDao.findAll();
+        }
         PageInfo<Community> communityPageInfo = new PageInfo<>(communityList);
         List<Community> list = communityPageInfo.getList();
         log.info("pageInfo的communityList-{}", list);

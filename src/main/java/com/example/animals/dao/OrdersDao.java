@@ -4,6 +4,7 @@ import com.example.animals.mapper.OrdersMapper;
 import com.example.animals.pojo.Orders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import tk.mybatis.mapper.entity.Condition;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
@@ -47,10 +48,11 @@ public class OrdersDao {
     }
 
     public List<Orders> getOrdersByStatusAndUserId(Long userId, Integer status) {
-        Example example = new Example(Orders.class);
-        example.createCriteria()
+        Condition condition = new Condition(Orders.class);
+        condition.createCriteria()
                 .andEqualTo("userId",userId)
                 .andEqualTo("status",status);
-        return ordersMapper.selectByExample(example);
+        condition.setOrderByClause("create_time desc");
+        return ordersMapper.selectByExample(condition);
     }
 }
